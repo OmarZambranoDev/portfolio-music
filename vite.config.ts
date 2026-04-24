@@ -1,0 +1,30 @@
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import federation from '@originjs/vite-plugin-federation';
+
+export default defineConfig({
+  plugins: [
+    react(),
+    federation({
+      name: 'music',
+      filename: 'remoteEntry.js',
+      exposes: {
+        './MusicApp': './src/App',
+      },
+      shared: ['react', 'react-dom', '@portfolio/ui', 'zustand'],
+    }),
+  ],
+  build: {
+    target: 'esnext',
+    minify: false,
+    cssCodeSplit: false,
+  },
+  server: {
+    port: 3002,
+    cors: true,
+  },
+  preview: {
+    port: 3002,
+    cors: true,
+  },
+});
