@@ -1,15 +1,15 @@
-import { useState } from 'react';
 import { Button, EmptyState } from '@portfolio/ui';
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalBody,
-  ModalFooter,
-} from '@portfolio/ui';
-import { Library, ChevronLeft, ChevronRight, Music, ListMusic, Plus } from 'lucide-react';
+  Library,
+  ChevronLeft,
+  ChevronRight,
+  Music,
+  ListMusic,
+  Plus,
+} from 'lucide-react';
 import { useMusicStore } from '../../store/musicStore';
+import { usePlaylistModals } from '../../hooks/usePlaylistModals';
+import { PlaylistModal } from '../Library/PlaylistModal';
 
 export function LibrarySidebar() {
   const {
@@ -19,21 +19,18 @@ export function LibrarySidebar() {
     playlists,
     activePlaylistId,
     setActivePlaylist,
-    createPlaylist,
   } = useMusicStore();
 
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [newPlaylistName, setNewPlaylistName] = useState('');
-  const [newPlaylistDesc, setNewPlaylistDesc] = useState('');
-
-  const handleCreatePlaylist = () => {
-    if (newPlaylistName.trim()) {
-      createPlaylist(newPlaylistName.trim(), newPlaylistDesc.trim() || undefined);
-      setNewPlaylistName('');
-      setNewPlaylistDesc('');
-      setIsCreateModalOpen(false);
-    }
-  };
+  const {
+    modalMode,
+    playlistName,
+    playlistDescription,
+    openModal,
+    closeModal,
+    setPlaylistName,
+    setPlaylistDescription,
+    handleCreate,
+  } = usePlaylistModals();
 
   return (
     <>
@@ -91,7 +88,11 @@ export function LibrarySidebar() {
                 <span className="text-xs font-medium text-muted uppercase tracking-wider">
                   Playlists
                 </span>
-                <Button variant="outline" size="sm" onClick={() => setIsCreateModalOpen(true)}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => openModal('create')}
+                >
                   <Plus className="w-4 h-4" />
                 </Button>
               </div>
@@ -113,8 +114,12 @@ export function LibrarySidebar() {
                 <ListMusic className="w-5 h-5 flex-shrink-0" />
                 {!isSidebarCollapsed && (
                   <>
-                    <span className="flex-1 text-left truncate">{playlist.name}</span>
-                    <span className="text-sm text-muted">{playlist.trackIds.length}</span>
+                    <span className="flex-1 text-left truncate">
+                      {playlist.name}
+                    </span>
+                    <span className="text-sm text-muted">
+                      {playlist.trackIds.length}
+                    </span>
                   </>
                 )}
               </button>
@@ -127,7 +132,7 @@ export function LibrarySidebar() {
                 size="sm"
                 action={{
                   label: 'Create Playlist',
-                  onClick: () => setIsCreateModalOpen(true),
+                  onClick: () => openModal('create'),
                 }}
               />
             )}
@@ -135,53 +140,18 @@ export function LibrarySidebar() {
         </div>
       </aside>
 
-      {/* Create Playlist Modal */}
-      <Modal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
-        <ModalContent size="sm">
-          <ModalHeader>
-            <ModalTitle>Create Playlist</ModalTitle>
-          </ModalHeader>
-          <ModalBody>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                <input
-                  type="text"
-                  value={newPlaylistName}
-                  onChange={(e) => setNewPlaylistName(e.target.value)}
-                  className="w-full px-3 py-2 border border-muted rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                  placeholder="My Playlist"
-                  autoFocus
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Description (optional)
-                </label>
-                <textarea
-                  value={newPlaylistDesc}
-                  onChange={(e) => setNewPlaylistDesc(e.target.value)}
-                  className="w-full px-3 py-2 border border-muted rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                  rows={2}
-                  placeholder="What's this playlist about?"
-                />
-              </div>
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <Button variant="outline" onClick={() => setIsCreateModalOpen(false)}>
-              Cancel
-            </Button>
-            <Button
-              variant="primary"
-              onClick={handleCreatePlaylist}
-              disabled={!newPlaylistName.trim()}
-            >
-              Create
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <PlaylistModal
+        mode={modalMode}
+        open={modalMode !== null}
+        onOpenChange={(open) => {
+          if (!open) closeModal();
+        }}
+        playlistName={playlistName}
+        onPlaylistNameChange={setPlaylistName}
+        playlistDescription={playlistDescription}
+        onPlaylistDescriptionChange={setPlaylistDescription}
+        onCreate={handleCreate}
+      />
     </>
   );
 }
