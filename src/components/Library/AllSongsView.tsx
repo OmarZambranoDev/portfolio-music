@@ -3,11 +3,12 @@ import { SearchBar } from '@portfolio/ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useMusicStore } from '../../store/musicStore';
 import { usePlaylistModals } from '../../hooks/usePlaylistModals';
+import { useTrackActions } from '../../hooks/useTrackActions';
 import { PlaylistModal } from './PlaylistModal';
 import { TrackRow } from './TrackRow';
 
 export function AllSongsView() {
-  const { searchQuery, setSearchQuery, getFilteredTracks, playTrack, playlists } = useMusicStore();
+  const { searchQuery, setSearchQuery, getFilteredTracks, playlists } = useMusicStore();
 
   const {
     modalMode,
@@ -21,6 +22,17 @@ export function AllSongsView() {
     switchToCreateAndAdd,
   } = usePlaylistModals();
 
+  const {
+    handlePlay,
+    handleTogglePlay,
+    handleDoubleClick,
+    handleSelect,
+    handleAddToPlaylist: onAddToPlaylistAction,
+    isCurrentTrack,
+    isSelected,
+    isPlaying,
+  } = useTrackActions((track) => openModal('add-to-playlist', track));
+
   const tracks = getFilteredTracks();
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -33,7 +45,6 @@ export function AllSongsView() {
 
   return (
     <div className="p-6 h-full flex flex-col">
-      {/* Header */}
       <div className="mb-6 flex-shrink-0">
         <h1 className="text-2xl font-bold text-gray-900 mb-4">All Songs</h1>
         <SearchBar
@@ -48,7 +59,6 @@ export function AllSongsView() {
         </p>
       </div>
 
-      {/* Virtualized track list */}
       <div className="flex-1 bg-white rounded-lg border border-muted/30 overflow-hidden flex flex-col">
         <div className="grid grid-cols-[auto,1fr,1fr,1fr,auto] gap-4 px-4 py-2 bg-muted/10 border-b border-muted/30 text-sm font-medium text-gray-700 flex-shrink-0">
           <div className="w-8">#</div>
@@ -73,9 +83,15 @@ export function AllSongsView() {
                   key={track.id}
                   track={track}
                   index={virtualItem.index}
+                  isCurrentTrack={isCurrentTrack(track.id)}
+                  isPlaying={isPlaying}
+                  isSelected={isSelected(track.id)}
                   measureElement={virtualizer.measureElement}
-                  onPlay={playTrack}
-                  onAddToPlaylist={(track) => openModal('add-to-playlist', track)}
+                  onPlay={handlePlay}
+                  onTogglePlay={handleTogglePlay}
+                  onDoubleClick={handleDoubleClick}
+                  onSelect={handleSelect}
+                  onAddToPlaylist={onAddToPlaylistAction}
                   style={{
                     height: `${virtualItem.size}px`,
                     transform: `translateY(${virtualItem.start}px)`,

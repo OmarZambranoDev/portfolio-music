@@ -3,9 +3,10 @@ import { Button, SearchBar, EmptyState } from '@portfolio/ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useMusicStore } from '../../store/musicStore';
 import { usePlaylistModals } from '../../hooks/usePlaylistModals';
+import { useTrackActions } from '../../hooks/useTrackActions';
 import { PlaylistModal } from './PlaylistModal';
 import { TrackRow } from './TrackRow';
-import { Play, Trash2, Edit } from 'lucide-react';
+import { Play, Edit, Trash2 } from 'lucide-react';
 
 interface PlaylistViewProps {
   playlistId: string;
@@ -23,6 +24,16 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
     handleDelete,
     handleRename,
   } = usePlaylistModals();
+
+  const {
+    handlePlay,
+    handleTogglePlay,
+    handleDoubleClick,
+    handleSelect,
+    isCurrentTrack,
+    isSelected,
+    isPlaying,
+  } = useTrackActions();
 
   const playlist = playlists.find((p) => p.id === playlistId);
   const tracks = getPlaylistTracks(playlistId);
@@ -53,7 +64,6 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
 
   return (
     <div className="p-6 h-full flex flex-col">
-      {/* Header */}
       <div className="mb-6 flex-shrink-0">
         <div className="flex items-center justify-between mb-4">
           <div>
@@ -96,7 +106,6 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
         />
       </div>
 
-      {/* Empty state or virtualized list */}
       {filteredTracks.length === 0 ? (
         <EmptyState
           title="No tracks found"
@@ -129,9 +138,15 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
                     key={track.id}
                     track={track}
                     index={virtualItem.index}
+                    isCurrentTrack={isCurrentTrack(track.id)}
+                    isPlaying={isPlaying}
+                    isSelected={isSelected(track.id)}
                     showRemoveButton
                     measureElement={virtualizer.measureElement}
-                    onPlay={playTrack}
+                    onPlay={handlePlay}
+                    onTogglePlay={handleTogglePlay}
+                    onDoubleClick={handleDoubleClick}
+                    onSelect={handleSelect}
                     onRemove={(trackId) => removeTrackFromPlaylist(playlistId, trackId)}
                     style={{
                       height: `${virtualItem.size}px`,
