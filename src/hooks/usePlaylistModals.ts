@@ -20,7 +20,7 @@ export function usePlaylistModals() {
       if (playlistId) setSelectedPlaylistId(playlistId);
       if (currentName) setPlaylistName(currentName);
     },
-    [],
+    []
   );
 
   const closeModal = useCallback(() => {
@@ -45,7 +45,7 @@ export function usePlaylistModals() {
         closeModal();
       }
     },
-    [selectedTrack, addTrackToPlaylist, closeModal],
+    [selectedTrack, addTrackToPlaylist, closeModal]
   );
 
   const handleCreateAndAdd = useCallback(() => {

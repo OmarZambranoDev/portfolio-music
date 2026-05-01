@@ -1,12 +1,5 @@
 import { Button, EmptyState } from '@portfolio/ui';
-import {
-  Library,
-  ChevronLeft,
-  ChevronRight,
-  Music,
-  ListMusic,
-  Plus,
-} from 'lucide-react';
+import { Library, ChevronLeft, ChevronRight, Music, ListMusic, Plus } from 'lucide-react';
 import { useMusicStore } from '../../store/musicStore';
 import { usePlaylistModals } from '../../hooks/usePlaylistModals';
 import { PlaylistModal } from '../Library/PlaylistModal';
@@ -88,11 +81,7 @@ export function LibrarySidebar() {
                 <span className="text-xs font-medium text-muted uppercase tracking-wider">
                   Playlists
                 </span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => openModal('create')}
-                >
+                <Button variant="outline" size="sm" onClick={() => openModal('create')}>
                   <Plus className="w-4 h-4" />
                 </Button>
               </div>
@@ -114,12 +103,8 @@ export function LibrarySidebar() {
                 <ListMusic className="w-5 h-5 flex-shrink-0" />
                 {!isSidebarCollapsed && (
                   <>
-                    <span className="flex-1 text-left truncate">
-                      {playlist.name}
-                    </span>
-                    <span className="text-sm text-muted">
-                      {playlist.trackIds.length}
-                    </span>
+                    <span className="flex-1 text-left truncate">{playlist.name}</span>
+                    <span className="text-sm text-muted">{playlist.trackIds.length}</span>
                   </>
                 )}
               </button>

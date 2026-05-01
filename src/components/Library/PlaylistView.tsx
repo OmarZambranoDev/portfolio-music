@@ -1,14 +1,10 @@
 import { useState, useRef } from 'react';
-import {
-  Button,
-  SearchBar,
-  EmptyState,
-} from '@portfolio/ui';
+import { Button, SearchBar, EmptyState } from '@portfolio/ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useMusicStore } from '../../store/musicStore';
 import { usePlaylistModals } from '../../hooks/usePlaylistModals';
 import { PlaylistModal } from './PlaylistModal';
-import { formatTime } from '../../utils/formatTime';
+import { TrackRow } from './TrackRow';
 import { Play, Trash2, Edit } from 'lucide-react';
 
 interface PlaylistViewProps {
@@ -16,12 +12,7 @@ interface PlaylistViewProps {
 }
 
 export function PlaylistView({ playlistId }: PlaylistViewProps) {
-  const {
-    getPlaylistTracks,
-    playlists,
-    removeTrackFromPlaylist,
-    playTrack,
-  } = useMusicStore();
+  const { getPlaylistTracks, playlists, removeTrackFromPlaylist, playTrack } = useMusicStore();
 
   const {
     modalMode,
@@ -42,7 +33,7 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
     (t) =>
       !searchQuery ||
       t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      t.artist.toLowerCase().includes(searchQuery.toLowerCase()),
+      t.artist.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const virtualizer = useVirtualizer({
@@ -55,10 +46,7 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
   if (!playlist) {
     return (
       <div className="p-6">
-        <EmptyState
-          title="Playlist not found"
-          description="This playlist may have been deleted"
-        />
+        <EmptyState title="Playlist not found" description="This playlist may have been deleted" />
       </div>
     );
   }
@@ -69,12 +57,8 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
       <div className="mb-6 flex-shrink-0">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
-              {playlist.name}
-            </h1>
-            {playlist.description && (
-              <p className="text-muted mt-1">{playlist.description}</p>
-            )}
+            <h1 className="text-2xl font-bold text-gray-900">{playlist.name}</h1>
+            {playlist.description && <p className="text-muted mt-1">{playlist.description}</p>}
             <p className="text-sm text-muted mt-1">
               {tracks.length} track{tracks.length !== 1 ? 's' : ''}
             </p>
@@ -97,10 +81,7 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
               <Edit className="w-4 h-4" />
             </Button>
             {!playlist.isDefault && (
-              <Button
-                variant="outline"
-                onClick={() => openModal('delete', undefined, playlist.id)}
-              >
+              <Button variant="outline" onClick={() => openModal('delete', undefined, playlist.id)}>
                 <Trash2 className="w-4 h-4" />
               </Button>
             )}
@@ -120,9 +101,7 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
         <EmptyState
           title="No tracks found"
           description={
-            searchQuery
-              ? 'Try a different search term'
-              : 'Add some tracks to this playlist'
+            searchQuery ? 'Try a different search term' : 'Add some tracks to this playlist'
           }
         />
       ) : (
@@ -146,55 +125,19 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
               {virtualizer.getVirtualItems().map((virtualItem) => {
                 const track = filteredTracks[virtualItem.index];
                 return (
-                  <div
+                  <TrackRow
                     key={track.id}
-                    data-index={virtualItem.index}
-                    ref={virtualizer.measureElement}
-                    className="grid grid-cols-[auto,1fr,1fr,1fr,auto] gap-4 px-4 items-center hover:bg-muted/5 transition-colors border-b border-muted/20 absolute top-0 left-0 w-full"
+                    track={track}
+                    index={virtualItem.index}
+                    showRemoveButton
+                    measureElement={virtualizer.measureElement}
+                    onPlay={playTrack}
+                    onRemove={(trackId) => removeTrackFromPlaylist(playlistId, trackId)}
                     style={{
                       height: `${virtualItem.size}px`,
                       transform: `translateY(${virtualItem.start}px)`,
                     }}
-                  >
-                    <div className="w-8 text-muted text-sm">
-                      {virtualItem.index + 1}
-                    </div>
-                    <div className="flex items-center gap-3 min-w-0">
-                      <img
-                        src={track.coverArt}
-                        alt={track.album}
-                        className="w-8 h-8 rounded object-cover flex-shrink-0"
-                      />
-                      <span className="font-medium text-gray-900 text-sm truncate">
-                        {track.title}
-                      </span>
-                    </div>
-                    <div className="text-gray-700 text-sm truncate">
-                      {track.artist}
-                    </div>
-                    <div className="text-gray-700 text-sm truncate">
-                      {track.album}
-                    </div>
-                    <div className="w-20 flex items-center justify-end gap-1">
-                      <span className="text-muted text-xs">
-                        {formatTime(track.duration)}
-                      </span>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => playTrack(track.id)}
-                      >
-                        <Play className="w-3 h-3" />
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => removeTrackFromPlaylist(playlistId, track.id)}
-                      >
-                        <Trash2 className="w-3 h-3" />
-                      </Button>
-                    </div>
-                  </div>
+                  />
                 );
               })}
             </div>
