@@ -148,14 +148,6 @@ export function TrackRow({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" side="bottom">
-                <DropdownMenuItem onClick={handlePlayClick}>
-                  {isCurrentTrack && isPlaying ? (
-                    <Pause className="w-4 h-4 mr-2" />
-                  ) : (
-                    <Play className="w-4 h-4 mr-2" />
-                  )}
-                  {isCurrentTrack && isPlaying ? 'Pause' : 'Play'}
-                </DropdownMenuItem>
                 {onAddToPlaylist && (
                   <DropdownMenuItem onClick={() => onAddToPlaylist(track)}>
                     <Plus className="w-4 h-4 mr-2" />

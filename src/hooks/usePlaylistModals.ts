@@ -1,11 +1,19 @@
 import { useState, useCallback } from 'react';
 import { useMusicStore } from '../store/musicStore';
+import { useToast } from '@portfolio/ui';
 import { Track } from '../types';
 import { PlaylistModalMode } from '../components/Library/PlaylistModal';
 
 export function usePlaylistModals() {
-  const { createPlaylist, addTrackToPlaylist, deletePlaylist, renamePlaylist, setActivePlaylist } =
-    useMusicStore();
+  const {
+    createPlaylist,
+    addTrackToPlaylist,
+    deletePlaylist,
+    renamePlaylist,
+    setActivePlaylist,
+    playlists,
+  } = useMusicStore();
+  const { toast } = useToast();
 
   const [modalMode, setModalMode] = useState<PlaylistModalMode | null>(null);
   const [selectedTrack, setSelectedTrack] = useState<Track | null>(null);
@@ -35,17 +43,28 @@ export function usePlaylistModals() {
     if (playlistName.trim()) {
       createPlaylist(playlistName.trim(), playlistDescription.trim() || undefined);
       closeModal();
+      toast({
+        title: 'Playlist created',
+        description: `"${playlistName.trim()}" has been created`,
+        variant: 'success',
+      });
     }
-  }, [playlistName, playlistDescription, createPlaylist, closeModal]);
+  }, [playlistName, playlistDescription, createPlaylist, closeModal, toast]);
 
   const handleAddToPlaylist = useCallback(
     (targetPlaylistId: string) => {
       if (selectedTrack) {
         addTrackToPlaylist(targetPlaylistId, selectedTrack.id);
+        const targetPlaylist = playlists.find((p) => p.id === targetPlaylistId);
         closeModal();
+        toast({
+          title: 'Track added',
+          description: `"${selectedTrack.title}" added to "${targetPlaylist?.name}"`,
+          variant: 'success',
+        });
       }
     },
-    [selectedTrack, addTrackToPlaylist, closeModal]
+    [selectedTrack, addTrackToPlaylist, closeModal, toast, playlists]
   );
 
   const handleCreateAndAdd = useCallback(() => {
@@ -53,23 +72,40 @@ export function usePlaylistModals() {
       const newId = createPlaylist(playlistName.trim());
       addTrackToPlaylist(newId, selectedTrack.id);
       closeModal();
+      toast({
+        title: 'Playlist created & track added',
+        description: `"${selectedTrack.title}" added to "${playlistName.trim()}"`,
+        variant: 'success',
+      });
     }
-  }, [playlistName, selectedTrack, createPlaylist, addTrackToPlaylist, closeModal]);
+  }, [playlistName, selectedTrack, createPlaylist, addTrackToPlaylist, closeModal, toast]);
 
   const handleDelete = useCallback(() => {
     if (selectedPlaylistId) {
+      const playlistName = playlists.find((p) => p.id === selectedPlaylistId)?.name;
       deletePlaylist(selectedPlaylistId);
       setActivePlaylist(null);
       closeModal();
+      toast({
+        title: 'Playlist deleted',
+        description: `"${playlistName}" has been deleted`,
+        variant: 'success',
+      });
     }
-  }, [selectedPlaylistId, deletePlaylist, setActivePlaylist, closeModal]);
+  }, [selectedPlaylistId, deletePlaylist, setActivePlaylist, closeModal, toast, playlists]);
 
   const handleRename = useCallback(() => {
     if (selectedPlaylistId && playlistName.trim()) {
+      const oldName = playlists.find((p) => p.id === selectedPlaylistId)?.name;
       renamePlaylist(selectedPlaylistId, playlistName.trim());
       closeModal();
+      toast({
+        title: 'Playlist renamed',
+        description: `"${oldName}" renamed to "${playlistName.trim()}"`,
+        variant: 'success',
+      });
     }
-  }, [selectedPlaylistId, playlistName, renamePlaylist, closeModal]);
+  }, [selectedPlaylistId, playlistName, renamePlaylist, closeModal, toast, playlists]);
 
   const switchToCreateAndAdd = useCallback(() => {
     setModalMode('create-and-add');

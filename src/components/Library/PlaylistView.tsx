@@ -13,7 +13,7 @@ interface PlaylistViewProps {
 }
 
 export function PlaylistView({ playlistId }: PlaylistViewProps) {
-  const { getPlaylistTracks, playlists, removeTrackFromPlaylist, playTrack } = useMusicStore();
+  const { getPlaylistTracks, playlists, playTrack } = useMusicStore();
 
   const {
     modalMode,
@@ -24,16 +24,6 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
     handleDelete,
     handleRename,
   } = usePlaylistModals();
-
-  const {
-    handlePlay,
-    handleTogglePlay,
-    handleDoubleClick,
-    handleSelect,
-    isCurrentTrack,
-    isSelected,
-    isPlaying,
-  } = useTrackActions();
 
   const playlist = playlists.find((p) => p.id === playlistId);
   const tracks = getPlaylistTracks(playlistId);
@@ -46,6 +36,20 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
       t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       t.artist.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const {
+    handlePlay,
+    handleTogglePlay,
+    handleDoubleClick,
+    handleSelect,
+    handleRemove,
+    isCurrentTrack,
+    isSelected,
+    isPlaying,
+  } = useTrackActions(undefined, {
+    playlistId: playlist?.id || '',
+    playlistName: playlist?.name || '',
+  });
 
   const virtualizer = useVirtualizer({
     count: filteredTracks.length,
@@ -147,7 +151,7 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
                     onTogglePlay={handleTogglePlay}
                     onDoubleClick={handleDoubleClick}
                     onSelect={handleSelect}
-                    onRemove={(trackId) => removeTrackFromPlaylist(playlistId, trackId)}
+                    onRemove={handleRemove}
                     style={{
                       height: `${virtualItem.size}px`,
                       transform: `translateY(${virtualItem.start}px)`,

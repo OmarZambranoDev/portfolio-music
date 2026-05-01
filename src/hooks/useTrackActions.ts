@@ -1,10 +1,16 @@
 import { useState, useCallback } from 'react';
 import { useMusicStore } from '../store/musicStore';
+import { useToast } from '@portfolio/ui';
 import { Track } from '../types';
 
-export function useTrackActions(onAddToPlaylist?: (track: Track) => void) {
-  const { playTrack, togglePlay, currentTrackId, isPlaying } = useMusicStore();
+export function useTrackActions(
+  onAddToPlaylist?: (track: Track) => void,
+  removeContext?: { playlistId: string; playlistName: string }
+) {
+  const { playTrack, togglePlay, currentTrackId, isPlaying, removeTrackFromPlaylist } =
+    useMusicStore();
   const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const handlePlay = useCallback(
     (trackId: string) => {
@@ -35,6 +41,22 @@ export function useTrackActions(onAddToPlaylist?: (track: Track) => void) {
     [onAddToPlaylist]
   );
 
+  const handleRemove = useCallback(
+    (trackId: string) => {
+      if (!removeContext) return;
+      const track = useMusicStore.getState().allTracks.find((t) => t.id === trackId);
+      removeTrackFromPlaylist(removeContext.playlistId, trackId);
+      if (track) {
+        toast({
+          title: 'Track removed',
+          description: `"${track.title}" removed from "${removeContext.playlistName}"`,
+          variant: 'success',
+        });
+      }
+    },
+    [removeContext, removeTrackFromPlaylist, toast]
+  );
+
   const isCurrentTrack = useCallback(
     (trackId: string) => currentTrackId === trackId,
     [currentTrackId]
@@ -51,6 +73,7 @@ export function useTrackActions(onAddToPlaylist?: (track: Track) => void) {
     handleDoubleClick,
     handleSelect,
     handleAddToPlaylist,
+    handleRemove,
     isCurrentTrack,
     isSelected,
     isPlaying,

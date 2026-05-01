@@ -141,7 +141,7 @@ export const useMusicStore = create<MusicStore>()(
       pauseTrack: () => set({ isPlaying: false }),
 
       nextTrack: () => {
-        const { currentTrackId, activePlaylistId, playlists, allTracks, searchQuery } = get();
+        const { currentTrackId, activePlaylistId, playlists } = get();
         let tracks: string[];
 
         if (activePlaylistId) {
@@ -159,7 +159,7 @@ export const useMusicStore = create<MusicStore>()(
       },
 
       previousTrack: () => {
-        const { currentTrackId, activePlaylistId, playlists, allTracks, searchQuery } = get();
+        const { currentTrackId, activePlaylistId, playlists } = get();
         let tracks: string[];
 
         if (activePlaylistId) {
