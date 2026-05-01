@@ -5,7 +5,6 @@ export function getFallbackTracks(): Track[] {
   return FALLBACK_TRACKS.map((track, index) => ({
     ...track,
     id: `track-${String(index + 1).padStart(3, '0')}`,
-    duration: 150 + Math.floor(Math.random() * 120),
     coverArt: `https://picsum.photos/seed/${track.artist
       .toLowerCase()
       .replace(/\s/g, '-')}/400/400`,
