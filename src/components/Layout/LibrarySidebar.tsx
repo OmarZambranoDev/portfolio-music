@@ -33,18 +33,21 @@ export function LibrarySidebar() {
         }`}
       >
         {/* Header */}
-        <div className="p-4 border-b border-muted/30 flex items-center justify-between">
+        <div
+          className={`p-4 border-b border-earth-stone/30 flex items-center ${
+            isSidebarCollapsed ? 'justify-center' : 'justify-between'
+          }`}
+        >
           {!isSidebarCollapsed && (
             <div className="flex items-center gap-2">
               <Library className="w-5 h-5 text-primary" />
-              <span className="font-medium text-gray-900">Library</span>
+              <span className="font-medium text-earth-forest">Library</span>
             </div>
           )}
           <Button
             variant="outline"
             size="sm"
             onClick={() => setSidebarCollapsed(!isSidebarCollapsed)}
-            className={isSidebarCollapsed ? 'mx-auto' : ''}
           >
             {isSidebarCollapsed ? (
               <ChevronRight className="w-4 h-4" />

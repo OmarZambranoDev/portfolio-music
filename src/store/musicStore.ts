@@ -141,10 +141,17 @@ export const useMusicStore = create<MusicStore>()(
       pauseTrack: () => set({ isPlaying: false }),
 
       nextTrack: () => {
-        const { currentTrackId, activePlaylistId, playlists, allTracks } = get();
-        const tracks = activePlaylistId
-          ? playlists.find((p) => p.id === activePlaylistId)?.trackIds || []
-          : allTracks.map((t) => t.id);
+        const { currentTrackId, activePlaylistId, playlists, allTracks, searchQuery } = get();
+        let tracks: string[];
+
+        if (activePlaylistId) {
+          tracks = playlists.find((p) => p.id === activePlaylistId)?.trackIds || [];
+        } else {
+          // All Songs view — use filtered/sorted order
+          const { getFilteredTracks } = get();
+          tracks = getFilteredTracks().map((t) => t.id);
+        }
+
         if (!currentTrackId || tracks.length === 0) return;
         const currentIndex = tracks.indexOf(currentTrackId);
         const nextTrackId = tracks[(currentIndex + 1) % tracks.length];
@@ -152,10 +159,16 @@ export const useMusicStore = create<MusicStore>()(
       },
 
       previousTrack: () => {
-        const { currentTrackId, activePlaylistId, playlists, allTracks } = get();
-        const tracks = activePlaylistId
-          ? playlists.find((p) => p.id === activePlaylistId)?.trackIds || []
-          : allTracks.map((t) => t.id);
+        const { currentTrackId, activePlaylistId, playlists, allTracks, searchQuery } = get();
+        let tracks: string[];
+
+        if (activePlaylistId) {
+          tracks = playlists.find((p) => p.id === activePlaylistId)?.trackIds || [];
+        } else {
+          const { getFilteredTracks } = get();
+          tracks = getFilteredTracks().map((t) => t.id);
+        }
+
         if (!currentTrackId || tracks.length === 0) return;
         const currentIndex = tracks.indexOf(currentTrackId);
         const prevTrackId = tracks[(currentIndex - 1 + tracks.length) % tracks.length];
