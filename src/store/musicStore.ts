@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Track, Playlist } from '../types';
 import { getDefaultPlaylistTracks } from '../utils/generateMockTracks';
-import { fetchTracks } from '../utils/fetchTracks';
+import { getFallbackTracks } from '../utils/generateMockTracks';
 
 interface MusicStore {
   // Player state
@@ -101,13 +101,13 @@ export const useMusicStore = create<MusicStore>()(
       sortBy: 'title',
       sortDirection: 'asc',
 
-      // Load tracks from API or fallback
+      // Load tracks
       loadTracks: async () => {
         const { isLoaded } = get();
-        if (isLoaded) return; // Already loaded
+        if (isLoaded) return;
 
         try {
-          const tracks = await fetchTracks();
+          const tracks = getFallbackTracks();
           const defaultTracks = getDefaultPlaylistTracks(tracks);
 
           set((state) => ({
