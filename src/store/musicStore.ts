@@ -165,7 +165,7 @@ export const useMusicStore = create<MusicStore>()(
       setVolume: (volume) =>
         set({
           volume: Math.max(0, Math.min(1, volume)),
-          isMuted: volume === 0 ? true : get().isMuted,
+          isMuted: volume === 0,
         }),
 
       toggleMute: () => set((state) => ({ isMuted: !state.isMuted })),

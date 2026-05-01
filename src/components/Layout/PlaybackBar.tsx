@@ -8,7 +8,17 @@ export function PlaybackBar() {
   const { togglePlay, nextTrack, previousTrack, volume, isMuted, setVolume, toggleMute } =
     useMusicStore();
 
-  const { track, currentTime, progressPercent, handleSeek } = usePlaybackProgress();
+  const {
+    track,
+    currentTime,
+    progressPercent,
+    hoverPosition,
+    isDragging,
+    seekBarRef,
+    handleMouseDown,
+    handleMouseMove,
+    handleMouseLeave,
+  } = usePlaybackProgress();
 
   const isPlaying = useMusicStore((state) => state.isPlaying);
 
@@ -55,15 +65,44 @@ export function PlaybackBar() {
               {formatTime(currentTime)}
             </span>
             <div
-              className="flex-1 h-1 bg-earth-stone/30 rounded-full cursor-pointer group"
-              onClick={handleSeek}
+              ref={seekBarRef}
+              className="flex-1 h-6 flex items-center cursor-pointer group relative"
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
             >
-              <div
-                className="h-full bg-primary rounded-full relative"
-                style={{ width: `${progressPercent}%` }}
-              >
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+              {/* Track background */}
+              <div className="w-full h-1 bg-earth-stone/30 rounded-full relative">
+                {/* Played portion */}
+                <div
+                  className="h-full bg-primary rounded-full"
+                  style={{ width: `${progressPercent}%` }}
+                />
+                {/* Hover position */}
+                {hoverPosition !== null && (
+                  <div
+                    className="absolute top-0 h-full bg-earth-sage/50 rounded-full"
+                    style={{ width: `${hoverPosition}%` }}
+                  />
+                )}
               </div>
+              {/* Thumb */}
+              <div
+                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-primary rounded-full group-hover:opacity-100 transition-opacity"
+                style={{
+                  left: `${progressPercent}%`,
+                  opacity: isDragging ? 1 : undefined,
+                }}
+              />
+              {/* Time tooltip */}
+              {hoverPosition !== null && (
+                <div
+                  className="absolute -top-7 text-xs bg-earth-stone text-earth-forest font-medium px-2 py-0.5 rounded shadow-sm"
+                  style={{ left: `${hoverPosition}%`, transform: 'translateX(-50%)' }}
+                >
+                  {formatTime((hoverPosition / 100) * track.duration)}
+                </div>
+              )}
             </div>
             <span className="text-xs text-earth-sage w-10">
               -{formatTime(track.duration - currentTime)}
@@ -74,17 +113,31 @@ export function PlaybackBar() {
         {/* Volume */}
         <div className="w-32 flex items-center gap-2">
           <Button variant="outline" size="sm" onClick={toggleMute}>
-            {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+            {isMuted || volume === 0 ? (
+              <VolumeX className="w-4 h-4" />
+            ) : (
+              <Volume2 className="w-4 h-4" />
+            )}
           </Button>
-          <input
-            type="range"
-            min={0}
-            max={1}
-            step={0.01}
-            value={isMuted ? 0 : volume}
-            onChange={(e) => setVolume(parseFloat(e.target.value))}
-            className="w-full h-1 bg-earth-stone/30 rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary cursor-pointer"
-          />
+          <div className="relative flex-1 h-6 flex items-center cursor-pointer">
+            <input
+              type="range"
+              min={0}
+              max={1}
+              step={0.01}
+              value={isMuted ? 0 : volume}
+              onChange={(e) => {
+                const newVolume = parseFloat(e.target.value);
+                setVolume(newVolume);
+              }}
+              className="w-full h-1 rounded-full appearance-none cursor-pointer bg-earth-stone/30 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-primary [&::-moz-range-thumb]:border-none [&::-moz-range-thumb]:cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, #344b33 ${
+                  (isMuted ? 0 : volume) * 100
+                }%, #c5ae96 ${(isMuted ? 0 : volume) * 100}%)`,
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>

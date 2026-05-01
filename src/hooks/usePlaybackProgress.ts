@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import { useMusicStore } from '../store/musicStore';
 
 export function usePlaybackProgress() {
@@ -6,11 +6,14 @@ export function usePlaybackProgress() {
   const currentTrackId = useMusicStore((state) => state.currentTrackId);
   const currentTime = useMusicStore((state) => state.currentTime);
   const track = useMusicStore((state) => state.getCurrentTrack());
+  const [isDragging, setIsDragging] = useState(false);
+  const [hoverPosition, setHoverPosition] = useState<number | null>(null);
+  const seekBarRef = useRef<HTMLDivElement>(null);
 
   const animationRef = useRef<number>();
 
   useEffect(() => {
-    if (isPlaying && track) {
+    if (isPlaying && track && !isDragging) {
       let lastTimestamp = performance.now();
 
       const updateTime = (timestamp: number) => {
@@ -34,25 +37,84 @@ export function usePlaybackProgress() {
         if (animationRef.current) cancelAnimationFrame(animationRef.current);
       };
     }
-  }, [isPlaying, currentTrackId]);
+  }, [isPlaying, currentTrackId, isDragging]);
 
   const progressPercent = track ? (currentTime / track.duration) * 100 : 0;
 
-  const handleSeek = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (!track) return;
-      const rect = e.currentTarget.getBoundingClientRect();
-      const x = e.clientX - rect.left;
+  const calculateTimeFromEvent = useCallback(
+    (e: React.MouseEvent | MouseEvent) => {
+      if (!seekBarRef.current || !track) return null;
+      const rect = seekBarRef.current.getBoundingClientRect();
+      const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
       const percent = x / rect.width;
-      useMusicStore.getState().seek(percent * track.duration);
+      return percent * track.duration;
     },
     [track]
   );
+
+  const handleSeek = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const time = calculateTimeFromEvent(e);
+      if (time !== null) {
+        useMusicStore.getState().seek(time);
+      }
+    },
+    [calculateTimeFromEvent]
+  );
+
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      setIsDragging(true);
+      const time = calculateTimeFromEvent(e);
+      if (time !== null) {
+        useMusicStore.getState().seek(time);
+      }
+
+      const handleMouseMove = (moveEvent: MouseEvent) => {
+        const moveTime = calculateTimeFromEvent(moveEvent);
+        if (moveTime !== null) {
+          useMusicStore.getState().seek(moveTime);
+        }
+      };
+
+      const handleMouseUp = () => {
+        setIsDragging(false);
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    },
+    [calculateTimeFromEvent]
+  );
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (!isDragging && seekBarRef.current && track) {
+        const rect = seekBarRef.current.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const percent = (x / rect.width) * 100;
+        setHoverPosition(Math.max(0, Math.min(percent, 100)));
+      }
+    },
+    [isDragging, track]
+  );
+
+  const handleMouseLeave = useCallback(() => {
+    setHoverPosition(null);
+  }, []);
 
   return {
     track,
     currentTime,
     progressPercent,
+    hoverPosition,
+    isDragging,
+    seekBarRef,
     handleSeek,
+    handleMouseDown,
+    handleMouseMove,
+    handleMouseLeave,
   };
 }
