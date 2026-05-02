@@ -1,8 +1,22 @@
-import { Button, EmptyState } from '@portfolio/ui';
-import { Library, ChevronLeft, ChevronRight, Music, ListMusic, Plus } from 'lucide-react';
+import {
+  Button,
+  EmptyState,
+} from '@portfolio/ui';
+import {
+  Library,
+  ChevronLeft,
+  ChevronRight,
+  Music,
+  ListMusic,
+  Plus,
+  Github,
+  Home,
+} from 'lucide-react';
 import { useMusicStore } from '../../store/musicStore';
 import { usePlaylistModals } from '../../hooks/usePlaylistModals';
 import { PlaylistModal } from '../Library/PlaylistModal';
+
+const HOST_URL = import.meta.env.VITE_HOST_URL || 'http://localhost:3000';
 
 export function LibrarySidebar() {
   const {
@@ -38,11 +52,13 @@ export function LibrarySidebar() {
             isSidebarCollapsed ? 'justify-center' : 'justify-between'
           }`}
         >
-          {!isSidebarCollapsed && (
+          {!isSidebarCollapsed ? (
             <div className="flex items-center gap-2">
               <Library className="w-5 h-5 text-primary" />
               <span className="font-medium text-earth-forest">Library</span>
             </div>
+          ) : (
+            <Library className="w-5 h-5 text-primary" />
           )}
           <Button
             variant="outline"
@@ -84,7 +100,11 @@ export function LibrarySidebar() {
                 <span className="text-xs font-medium text-muted uppercase tracking-wider">
                   Playlists
                 </span>
-                <Button variant="outline" size="sm" onClick={() => openModal('create')}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => openModal('create')}
+                >
                   <Plus className="w-4 h-4" />
                 </Button>
               </div>
@@ -97,6 +117,7 @@ export function LibrarySidebar() {
               <button
                 key={playlist.id}
                 onClick={() => setActivePlaylist(playlist.id)}
+                title={isSidebarCollapsed ? playlist.name : 'test'}
                 className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
                   activePlaylistId === playlist.id
                     ? 'bg-primary/10 text-primary'
@@ -106,8 +127,12 @@ export function LibrarySidebar() {
                 <ListMusic className="w-5 h-5 flex-shrink-0" />
                 {!isSidebarCollapsed && (
                   <>
-                    <span className="flex-1 text-left truncate">{playlist.name}</span>
-                    <span className="text-sm">{playlist.trackIds.length}</span>
+                    <span className="flex-1 text-left truncate">
+                      {playlist.name}
+                    </span>
+                    <span className="text-sm">
+                      {playlist.trackIds.length}
+                    </span>
                   </>
                 )}
               </button>
@@ -124,6 +149,38 @@ export function LibrarySidebar() {
                 }}
               />
             )}
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="border-t border-earth-stone/30">
+          {/* Portfolio link */}
+          <div className={`p-2 ${isSidebarCollapsed ? 'flex justify-center' : ''}`}>
+            <a
+              href={HOST_URL}
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-earth-sage hover:text-earth-forest hover:bg-muted/10 transition-colors ${
+                isSidebarCollapsed ? 'justify-center' : ''
+              }`}
+            >
+              <Home className="w-5 h-5 flex-shrink-0" />
+              {!isSidebarCollapsed && <span className="text-sm">Portfolio</span>}
+            </a>
+          </div>
+
+          {/* GitHub link */}
+          <div className={`p-2 pt-0 ${isSidebarCollapsed ? 'flex justify-center' : ''}`}>
+            <a
+              href="https://github.com/your-username/portfolio-music"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-earth-sage hover:text-earth-forest hover:bg-muted/10 transition-colors ${
+                isSidebarCollapsed ? 'justify-center' : ''
+              }`}
+              title="View source on GitHub"
+            >
+              <Github className="w-5 h-5 flex-shrink-0" />
+              {!isSidebarCollapsed && <span className="text-sm">GitHub</span>}
+            </a>
           </div>
         </div>
       </aside>
