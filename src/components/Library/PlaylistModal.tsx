@@ -115,8 +115,9 @@ export function PlaylistModal({
             <ModalBody>
               {selectedTrack && (
                 <p className="text-sm text-earth-sage mb-3">
-                  Adding: <span className="font-medium text-earth-forest">{selectedTrack.title}</span>{' '}
-                  by {selectedTrack.artist}
+                  Adding:{' '}
+                  <span className="font-medium text-earth-forest">{selectedTrack.title}</span> by{' '}
+                  {selectedTrack.artist}
                 </p>
               )}
               <div className="space-y-2 max-h-64 overflow-y-auto">
@@ -127,7 +128,9 @@ export function PlaylistModal({
                     className="w-full text-left px-4 py-3 rounded-lg hover:bg-muted/10 transition-colors flex items-center justify-between"
                   >
                     <span className="font-medium text-earth-forest">{playlist.name}</span>
-                    <span className="text-sm text-earth-sage">{playlist.trackIds.length} tracks</span>
+                    <span className="text-sm text-earth-sage">
+                      {playlist.trackIds.length} tracks
+                    </span>
                   </button>
                 ))}
                 <button
@@ -171,7 +174,7 @@ export function PlaylistModal({
               </div>
             </ModalBody>
             <ModalFooter>
-              <Button variant="outline" onClick={onSwitchToCreateAndAdd}>
+              <Button variant="outline" onClick={() => onOpenChange(false)}>
                 Cancel
               </Button>
               <Button variant="primary" onClick={onCreateAndAdd} disabled={!playlistName.trim()}>
@@ -197,7 +200,11 @@ export function PlaylistModal({
               <Button variant="outline" onClick={() => onOpenChange(false)}>
                 Cancel
               </Button>
-              <Button variant="primary" onClick={onDelete}>
+              <Button
+                variant="primary"
+                className="!bg-red-600 hover:!bg-red-700"
+                onClick={onDelete}
+              >
                 Delete
               </Button>
             </ModalFooter>
