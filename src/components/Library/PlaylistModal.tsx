@@ -71,7 +71,7 @@ export function PlaylistModal({
             <ModalBody>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                  <label className="block text-sm font-medium text-earth-moss mb-1">Name</label>
                   <input
                     type="text"
                     value={playlistName}
@@ -82,7 +82,7 @@ export function PlaylistModal({
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-earth-moss mb-1">
                     Description (optional)
                   </label>
                   <textarea
@@ -114,8 +114,8 @@ export function PlaylistModal({
             </ModalHeader>
             <ModalBody>
               {selectedTrack && (
-                <p className="text-sm text-muted mb-3">
-                  Adding: <span className="font-medium text-gray-900">{selectedTrack.title}</span>{' '}
+                <p className="text-sm text-earth-sage mb-3">
+                  Adding: <span className="font-medium text-earth-forest">{selectedTrack.title}</span>{' '}
                   by {selectedTrack.artist}
                 </p>
               )}
@@ -126,8 +126,8 @@ export function PlaylistModal({
                     onClick={() => onAddToPlaylist?.(playlist.id)}
                     className="w-full text-left px-4 py-3 rounded-lg hover:bg-muted/10 transition-colors flex items-center justify-between"
                   >
-                    <span className="font-medium text-gray-900">{playlist.name}</span>
-                    <span className="text-sm text-muted">{playlist.trackIds.length} tracks</span>
+                    <span className="font-medium text-earth-forest">{playlist.name}</span>
+                    <span className="text-sm text-earth-sage">{playlist.trackIds.length} tracks</span>
                   </button>
                 ))}
                 <button
@@ -156,7 +156,7 @@ export function PlaylistModal({
             <ModalBody>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-earth-moss mb-1">
                     Playlist Name
                   </label>
                   <input
@@ -188,7 +188,7 @@ export function PlaylistModal({
               <ModalTitle>Delete Playlist</ModalTitle>
             </ModalHeader>
             <ModalBody>
-              <p className="text-gray-700">
+              <p className="text-earth-moss">
                 Are you sure you want to delete &ldquo;{playlistToDelete?.name}&rdquo;? This action
                 cannot be undone.
               </p>
@@ -213,7 +213,7 @@ export function PlaylistModal({
             <ModalBody>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-earth-moss mb-1">
                     Playlist Name
                   </label>
                   <input

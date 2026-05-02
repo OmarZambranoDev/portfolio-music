@@ -28,7 +28,7 @@ export function LibrarySidebar() {
   return (
     <>
       <aside
-        className={`h-full bg-white border-r border-muted/30 flex flex-col transition-all duration-300 ${
+        className={`h-full bg-white border-r border-earth-stone/30 flex flex-col transition-all duration-300 ${
           isSidebarCollapsed ? 'w-16' : 'w-64'
         }`}
       >
@@ -65,14 +65,14 @@ export function LibrarySidebar() {
             className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
               activePlaylistId === null
                 ? 'bg-primary/10 text-primary'
-                : 'hover:bg-muted/10 text-gray-700'
+                : 'hover:bg-muted/10 text-earth-sage'
             }`}
           >
             <Music className="w-5 h-5 flex-shrink-0" />
             {!isSidebarCollapsed && (
               <>
                 <span className="flex-1 text-left">All Songs</span>
-                <span className="text-sm text-muted">{allTracks.length}</span>
+                <span className="text-sm">{allTracks.length}</span>
               </>
             )}
           </button>
@@ -100,14 +100,14 @@ export function LibrarySidebar() {
                 className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
                   activePlaylistId === playlist.id
                     ? 'bg-primary/10 text-primary'
-                    : 'hover:bg-muted/10 text-gray-700'
+                    : 'hover:bg-muted/10 text-earth-sage'
                 }`}
               >
                 <ListMusic className="w-5 h-5 flex-shrink-0" />
                 {!isSidebarCollapsed && (
                   <>
                     <span className="flex-1 text-left truncate">{playlist.name}</span>
-                    <span className="text-sm text-muted">{playlist.trackIds.length}</span>
+                    <span className="text-sm">{playlist.trackIds.length}</span>
                   </>
                 )}
               </button>

@@ -46,7 +46,7 @@ export function AllSongsView() {
   return (
     <div className="p-6 h-full flex flex-col">
       <div className="mb-6 flex-shrink-0">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">All Songs</h1>
+        <h1 className="text-2xl font-bold text-earth-forest mb-4">All Songs</h1>
         <SearchBar
           value={searchQuery}
           onChange={setSearchQuery}
@@ -54,13 +54,13 @@ export function AllSongsView() {
           variant="default"
           size="md"
         />
-        <p className="text-sm text-muted mt-2">
+        <p className="text-sm text-earth-moss mt-2">
           {tracks.length} track{tracks.length !== 1 ? 's' : ''}
         </p>
       </div>
 
-      <div className="flex-1 bg-white rounded-lg border border-muted/30 overflow-hidden flex flex-col">
-        <div className="grid grid-cols-[auto,1fr,1fr,1fr,auto] gap-4 px-4 py-2 bg-muted/10 border-b border-muted/30 text-sm font-medium text-gray-700 flex-shrink-0">
+      <div className="flex-1 bg-white rounded-lg border border-earth-stone/30 overflow-hidden flex flex-col">
+        <div className="grid grid-cols-[auto,1fr,1fr,1fr,auto] gap-4 px-4 py-2 bg-muted/10 border-b border-earth-stone/30 text-sm font-medium text-earth-moss flex-shrink-0">
           <div className="w-8">#</div>
           <div>Title</div>
           <div>Artist</div>

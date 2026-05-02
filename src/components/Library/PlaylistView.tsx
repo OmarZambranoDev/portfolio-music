@@ -71,9 +71,9 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
       <div className="mb-6 flex-shrink-0">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{playlist.name}</h1>
-            {playlist.description && <p className="text-muted mt-1">{playlist.description}</p>}
-            <p className="text-sm text-muted mt-1">
+            <h1 className="text-2xl font-bold text-earth-forest">{playlist.name}</h1>
+            {playlist.description && <p className="text-earth-sage mt-1">{playlist.description}</p>}
+            <p className="text-sm text-earth-sage mt-1">
               {tracks.length} track{tracks.length !== 1 ? 's' : ''}
             </p>
           </div>
@@ -119,7 +119,7 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
         />
       ) : (
         <div className="flex-1 bg-white rounded-lg border border-muted/30 overflow-hidden flex flex-col">
-          <div className="grid grid-cols-[auto,1fr,1fr,1fr,auto] gap-4 px-4 py-2 bg-muted/10 border-b border-muted/30 text-sm font-medium text-gray-700 flex-shrink-0">
+          <div className="grid grid-cols-[auto,1fr,1fr,1fr,auto] gap-4 px-4 py-2 bg-muted/10 border-b border-muted/30 text-sm font-medium text-earth-moss flex-shrink-0">
             <div className="w-8">#</div>
             <div>Title</div>
             <div>Artist</div>
