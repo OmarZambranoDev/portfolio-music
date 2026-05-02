@@ -97,7 +97,7 @@ export function PlaybackBar() {
               {/* Time tooltip */}
               {hoverPosition !== null && (
                 <div
-                  className="absolute -top-5 text-xs bg-earth-stone text-white font-medium px-2 py-0.5 rounded shadow-sm"
+                  className="absolute -top-5 text-xs bg-earth-sand text-white font-medium px-2 py-0.5 rounded shadow-sm"
                   style={{ left: `${hoverPosition}%`, transform: 'translateX(-50%)' }}
                 >
                   {formatTime((hoverPosition / 100) * track.duration)}

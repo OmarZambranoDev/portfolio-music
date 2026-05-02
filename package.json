@@ -14,7 +14,7 @@
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css,json}\""
   },
   "dependencies": {
-    "@portfolio/ui": "^0.0.20",
+    "@portfolio/ui": "^0.0.23",
     "@tanstack/react-virtual": "^3.0.1",
     "clsx": "^2.1.0",
     "lucide-react": "^0.400.0",

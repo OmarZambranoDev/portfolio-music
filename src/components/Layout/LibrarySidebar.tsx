@@ -1,7 +1,4 @@
-import {
-  Button,
-  EmptyState,
-} from '@portfolio/ui';
+import { Button, EmptyState, Tooltip, TooltipTrigger, TooltipContent } from '@portfolio/ui';
 import {
   Library,
   ChevronLeft,
@@ -60,82 +57,123 @@ export function LibrarySidebar() {
           ) : (
             <Library className="w-5 h-5 text-primary" />
           )}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setSidebarCollapsed(!isSidebarCollapsed)}
-          >
-            {isSidebarCollapsed ? (
-              <ChevronRight className="w-4 h-4" />
-            ) : (
-              <ChevronLeft className="w-4 h-4" />
-            )}
-          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setSidebarCollapsed(!isSidebarCollapsed)}
+              >
+                {isSidebarCollapsed ? (
+                  <ChevronRight className="w-4 h-4" />
+                ) : (
+                  <ChevronLeft className="w-4 h-4" />
+                )}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right" className="bg-earth-sand">
+              <p>{isSidebarCollapsed ? 'Expand' : 'Collapse'} Library</p>
+            </TooltipContent>
+          </Tooltip>
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-2">
+        <div
+          key={isSidebarCollapsed ? 'collapsed' : 'expanded'}
+          className="flex-1 overflow-y-auto p-2"
+        >
           {/* All Songs */}
-          <button
-            onClick={() => setActivePlaylist(null)}
-            className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-              activePlaylistId === null
-                ? 'bg-primary/10 text-primary'
-                : 'hover:bg-muted/10 text-earth-sage'
-            }`}
-          >
-            <Music className="w-5 h-5 flex-shrink-0" />
-            {!isSidebarCollapsed && (
-              <>
-                <span className="flex-1 text-left">All Songs</span>
-                <span className="text-sm">{allTracks.length}</span>
-              </>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                onClick={() => setActivePlaylist(null)}
+                className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                  activePlaylistId === null
+                    ? 'bg-primary/10 text-primary'
+                    : 'hover:bg-muted/10 text-earth-sage'
+                }`}
+              >
+                <Music className="w-5 h-5 flex-shrink-0" />
+                {!isSidebarCollapsed && (
+                  <>
+                    <span className="flex-1 text-left">All Songs</span>
+                    <span className="text-sm">{allTracks.length}</span>
+                  </>
+                )}
+              </button>
+            </TooltipTrigger>
+            {isSidebarCollapsed && (
+              <TooltipContent side="right" className="bg-earth-sand">
+                <p>All Songs</p>
+              </TooltipContent>
             )}
-          </button>
+          </Tooltip>
 
           {/* Playlists section header */}
           {!isSidebarCollapsed && (
             <div className="mt-4 px-2">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-medium text-muted uppercase tracking-wider">
+                <span className="text-xs font-medium text-earth-sand uppercase tracking-wider">
                   Playlists
                 </span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => openModal('create')}
-                >
-                  <Plus className="w-4 h-4" />
-                </Button>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="outline" size="sm" onClick={() => openModal('create')}>
+                      <Plus className="w-4 h-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="right" className="bg-earth-sand">
+                    <p>Create Playlist</p>
+                  </TooltipContent>
+                </Tooltip>
               </div>
+            </div>
+          )}
+
+          {/* Create playlist button when collapsed */}
+          {isSidebarCollapsed && (
+            <div className="mt-4 flex justify-center">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline" size="sm" onClick={() => openModal('create')}>
+                    <Plus className="w-4 h-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="right" className="bg-earth-sand">
+                  <p>Create Playlist</p>
+                </TooltipContent>
+              </Tooltip>
             </div>
           )}
 
           {/* Playlist list */}
           <div className="space-y-1">
             {playlists.map((playlist) => (
-              <button
-                key={playlist.id}
-                onClick={() => setActivePlaylist(playlist.id)}
-                title={isSidebarCollapsed ? playlist.name : 'test'}
-                className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                  activePlaylistId === playlist.id
-                    ? 'bg-primary/10 text-primary'
-                    : 'hover:bg-muted/10 text-earth-sage'
-                }`}
-              >
-                <ListMusic className="w-5 h-5 flex-shrink-0" />
-                {!isSidebarCollapsed && (
-                  <>
-                    <span className="flex-1 text-left truncate">
-                      {playlist.name}
-                    </span>
-                    <span className="text-sm">
-                      {playlist.trackIds.length}
-                    </span>
-                  </>
+              <Tooltip key={playlist.id}>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={() => setActivePlaylist(playlist.id)}
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                      activePlaylistId === playlist.id
+                        ? 'bg-primary/10 text-primary'
+                        : 'hover:bg-muted/10 text-earth-sage'
+                    }`}
+                  >
+                    <ListMusic className="w-5 h-5 flex-shrink-0" />
+                    {!isSidebarCollapsed && (
+                      <>
+                        <span className="flex-1 text-left truncate">{playlist.name}</span>
+                        <span className="text-sm">{playlist.trackIds.length}</span>
+                      </>
+                    )}
+                  </button>
+                </TooltipTrigger>
+                {isSidebarCollapsed && (
+                  <TooltipContent side="right" className="bg-earth-sand">
+                    <p>{playlist.name}</p>
+                  </TooltipContent>
                 )}
-              </button>
+              </Tooltip>
             ))}
 
             {playlists.length === 0 && !isSidebarCollapsed && (
@@ -156,31 +194,48 @@ export function LibrarySidebar() {
         <div className="border-t border-earth-stone/30">
           {/* Portfolio link */}
           <div className={`p-2 ${isSidebarCollapsed ? 'flex justify-center' : ''}`}>
-            <a
-              href={HOST_URL}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-earth-sage hover:text-earth-forest hover:bg-muted/10 transition-colors ${
-                isSidebarCollapsed ? 'justify-center' : ''
-              }`}
-            >
-              <Home className="w-5 h-5 flex-shrink-0" />
-              {!isSidebarCollapsed && <span className="text-sm">Portfolio</span>}
-            </a>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <a
+                  href={HOST_URL}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-earth-sage hover:text-earth-forest hover:bg-muted/10 transition-colors ${
+                    isSidebarCollapsed ? 'justify-center' : ''
+                  }`}
+                >
+                  <Home className="w-5 h-5 flex-shrink-0" />
+                  {!isSidebarCollapsed && <span className="text-sm">Portfolio</span>}
+                </a>
+              </TooltipTrigger>
+              {isSidebarCollapsed && (
+                <TooltipContent side="right" className="bg-earth-sand">
+                  <p>Back to Portfolio</p>
+                </TooltipContent>
+              )}
+            </Tooltip>
           </div>
 
           {/* GitHub link */}
           <div className={`p-2 pt-0 ${isSidebarCollapsed ? 'flex justify-center' : ''}`}>
-            <a
-              href="https://github.com/your-username/portfolio-music"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-earth-sage hover:text-earth-forest hover:bg-muted/10 transition-colors ${
-                isSidebarCollapsed ? 'justify-center' : ''
-              }`}
-              title="View source on GitHub"
-            >
-              <Github className="w-5 h-5 flex-shrink-0" />
-              {!isSidebarCollapsed && <span className="text-sm">GitHub</span>}
-            </a>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <a
+                  href="https://github.com/your-username/portfolio-music"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-earth-sage hover:text-earth-forest hover:bg-muted/10 transition-colors ${
+                    isSidebarCollapsed ? 'justify-center' : ''
+                  }`}
+                >
+                  <Github className="w-5 h-5 flex-shrink-0" />
+                  {!isSidebarCollapsed && <span className="text-sm">GitHub</span>}
+                </a>
+              </TooltipTrigger>
+              {isSidebarCollapsed && (
+                <TooltipContent side="right" className="bg-earth-sand">
+                  <p>View Source on GitHub</p>
+                </TooltipContent>
+              )}
+            </Tooltip>
           </div>
         </div>
       </aside>
