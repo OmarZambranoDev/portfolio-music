@@ -50,11 +50,6 @@ export function TrackRow({
       onPlay(track.id);
     }
   };
-  const showActions = isSelected || isCurrentTrack;
-
-  const handleRowClick = () => {
-    onSelect?.(track.id);
-  };
 
   return (
     <div
@@ -68,23 +63,30 @@ export function TrackRow({
             ? 'bg-earth-stone/20'
             : 'hover:bg-earth-stone/20'
       }`}
-      onClick={handleRowClick}
+      onClick={() => onSelect?.(track.id)}
       onDoubleClick={() => onDoubleClick?.(track)}
     >
       {/* Track number / Play-Pause icon */}
       <div className="w-8 flex items-center justify-center">
         {isCurrentTrack ? (
-          <Button variant="primary" size="sm" onClick={handlePlayClick} className="w-7 h-7 p-0">
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={handlePlayClick}
+            aria-label={isPlaying ? `Pause ${track.title}` : `Play ${track.title}`}
+            className="w-7 h-7 p-0 min-w-[44px] min-h-[44px]"
+          >
             {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
           </Button>
         ) : (
           <>
-            <span className="text-earth-sage text-sm group-hover:hidden">{index + 1}</span>
+            <span className="text-earth-moss text-sm group-hover:hidden">{index + 1}</span>
             <Button
               variant="outline"
               size="sm"
               onClick={handlePlayClick}
-              className="hidden group-hover:inline-flex w-7 h-7 p-0"
+              aria-label={`Play ${track.title}`}
+              className="hidden group-hover:inline-flex w-7 h-7 p-0 min-w-[44px] min-h-[44px]"
             >
               <Play className="w-3.5 h-3.5" />
             </Button>
@@ -96,7 +98,7 @@ export function TrackRow({
       <div className="flex items-center gap-3 min-w-0">
         <img
           src={track.coverArt}
-          alt={track.album}
+          alt={`${track.album} cover art`}
           className="w-8 h-8 rounded object-cover flex-shrink-0"
         />
         <span
@@ -109,17 +111,20 @@ export function TrackRow({
       </div>
 
       {/* Artist */}
-      <div className="text-earth-sage text-sm truncate">{track.artist}</div>
+      <div className="text-earth-moss text-sm truncate">{track.artist}</div>
 
       {/* Album */}
-      <div className="text-earth-sage text-sm truncate">{track.album}</div>
+      <div className="text-earth-moss text-sm truncate">{track.album}</div>
 
       {/* Duration + actions */}
       <div className="w-24 flex items-center justify-end gap-2">
-        <span className="text-earth-sage text-xs">{formatTime(track.duration)}</span>
+        <span className="text-earth-moss text-xs">{formatTime(track.duration)}</span>
 
-        {/* Actions container */}
-        <div className={`items-center ${showActions ? 'flex' : 'hidden group-hover:flex'}`}>
+        <div
+          className={`items-center ${
+            isSelected || isCurrentTrack ? 'flex' : 'hidden group-hover:flex'
+          }`}
+        >
           {showRemoveButton ? (
             <Button
               variant="outline"
@@ -128,6 +133,7 @@ export function TrackRow({
                 e.stopPropagation();
                 onRemove?.(track.id);
               }}
+              aria-label={`Remove ${track.title} from playlist`}
             >
               <Trash2 className="w-3 h-3" />
             </Button>
@@ -137,6 +143,7 @@ export function TrackRow({
                 <Button
                   variant="outline"
                   size="sm"
+                  aria-label={`More actions for ${track.title}`}
                   onPointerDown={(e) => {
                     e.stopPropagation();
                     if (!isSelected) {

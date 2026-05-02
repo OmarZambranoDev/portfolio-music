@@ -71,8 +71,14 @@ export function PlaylistModal({
             <ModalBody>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-earth-moss mb-1">Name</label>
+                  <label
+                    htmlFor="playlist-name"
+                    className="block text-sm font-medium text-earth-moss mb-1"
+                  >
+                    Name
+                  </label>
                   <input
+                    id="playlist-name"
                     type="text"
                     value={playlistName}
                     onChange={(e) => onPlaylistNameChange?.(e.target.value)}
@@ -82,10 +88,14 @@ export function PlaylistModal({
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-earth-moss mb-1">
+                  <label
+                    htmlFor="playlist-description"
+                    className="block text-sm font-medium text-earth-moss mb-1"
+                  >
                     Description (optional)
                   </label>
                   <textarea
+                    id="playlist-description"
                     value={playlistDescription}
                     onChange={(e) => onPlaylistDescriptionChange?.(e.target.value)}
                     className="w-full px-3 py-2 border border-muted rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
@@ -159,10 +169,14 @@ export function PlaylistModal({
             <ModalBody>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-earth-moss mb-1">
+                  <label
+                    htmlFor="new-playlist-name"
+                    className="block text-sm font-medium text-earth-moss mb-1"
+                  >
                     Playlist Name
                   </label>
                   <input
+                    id="new-playlist-name"
                     type="text"
                     value={playlistName}
                     onChange={(e) => onPlaylistNameChange?.(e.target.value)}
@@ -220,10 +234,14 @@ export function PlaylistModal({
             <ModalBody>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-earth-moss mb-1">
+                  <label
+                    htmlFor="rename-playlist-name"
+                    className="block text-sm font-medium text-earth-moss mb-1"
+                  >
                     Playlist Name
                   </label>
                   <input
+                    id="rename-playlist-name"
                     type="text"
                     value={playlistName}
                     onChange={(e) => onPlaylistNameChange?.(e.target.value)}

@@ -72,8 +72,8 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="text-2xl font-bold text-earth-forest">{playlist.name}</h1>
-            {playlist.description && <p className="text-earth-sage mt-1">{playlist.description}</p>}
-            <p className="text-sm text-earth-sage mt-1">
+            {playlist.description && <p className="text-earth-moss mt-1">{playlist.description}</p>}
+            <p className="text-sm text-earth-moss mt-1">
               {tracks.length} track{tracks.length !== 1 ? 's' : ''}
             </p>
           </div>
@@ -84,6 +84,7 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
                 if (filteredTracks.length > 0) playTrack(filteredTracks[0].id);
               }}
               disabled={filteredTracks.length === 0}
+              aria-label="Play all tracks"
             >
               <Play className="w-4 h-4 mr-1" />
               Play All
@@ -91,17 +92,26 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
             <Button
               variant="outline"
               onClick={() => openModal('rename', undefined, playlist.id, playlist.name)}
+              aria-label={`Rename playlist ${playlist.name}`}
             >
               <Edit className="w-4 h-4" />
             </Button>
             {!playlist.isDefault && (
-              <Button variant="outline" onClick={() => openModal('delete', undefined, playlist.id)}>
+              <Button
+                variant="outline"
+                onClick={() => openModal('delete', undefined, playlist.id)}
+                aria-label={`Delete playlist ${playlist.name}`}
+              >
                 <Trash2 className="w-4 h-4" />
               </Button>
             )}
           </div>
         </div>
+        <label htmlFor="playlist-search" className="sr-only">
+          Search in playlist
+        </label>
         <SearchBar
+          id="playlist-search"
           value={searchQuery}
           onChange={setSearchQuery}
           placeholder="Search in playlist..."
@@ -118,8 +128,8 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
           }
         />
       ) : (
-        <div className="flex-1 bg-white rounded-lg border border-muted/30 overflow-hidden flex flex-col">
-          <div className="grid grid-cols-[auto,1fr,1fr,1fr,auto] gap-4 px-4 py-2 bg-muted/10 border-b border-muted/30 text-sm font-medium text-earth-moss flex-shrink-0">
+        <div className="flex-1 bg-white rounded-lg border border-earth-stone/30 overflow-hidden flex flex-col">
+          <div className="grid grid-cols-[auto,1fr,1fr,1fr,auto] gap-4 px-4 py-2 bg-muted/10 border-b border-earth-stone/30 text-sm font-medium text-earth-forest flex-shrink-0">
             <div className="w-8">#</div>
             <div>Title</div>
             <div>Artist</div>

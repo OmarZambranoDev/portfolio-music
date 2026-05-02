@@ -47,7 +47,11 @@ export function AllSongsView() {
     <div className="p-6 h-full flex flex-col">
       <div className="mb-6 flex-shrink-0">
         <h1 className="text-2xl font-bold text-earth-forest mb-4">All Songs</h1>
+        <label htmlFor="all-songs-search" className="sr-only">
+          Search all songs
+        </label>
         <SearchBar
+          id="all-songs-search"
           value={searchQuery}
           onChange={setSearchQuery}
           placeholder="Search songs, artists, or albums..."

@@ -74,11 +74,19 @@ export function usePlaybackProgress() {
         const moveTime = calculateTimeFromEvent(moveEvent);
         if (moveTime !== null) {
           useMusicStore.getState().seek(moveTime);
+          // Update hover position so tooltip follows cursor during drag
+          if (seekBarRef.current && track) {
+            const rect = seekBarRef.current.getBoundingClientRect();
+            const x = moveEvent.clientX - rect.left;
+            const percent = (x / rect.width) * 100;
+            setHoverPosition(Math.max(0, Math.min(percent, 100)));
+          }
         }
       };
 
       const handleMouseUp = () => {
         setIsDragging(false);
+        setHoverPosition(null);
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
       };
@@ -86,7 +94,7 @@ export function usePlaybackProgress() {
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
     },
-    [calculateTimeFromEvent]
+    [calculateTimeFromEvent, track]
   );
 
   const handleMouseMove = useCallback(
