@@ -1,26 +1,14 @@
 import { Button } from '@portfolio/ui';
-import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX } from 'lucide-react';
 import { useMusicStore } from '../../store/musicStore';
 import { usePlaybackProgress } from '../../hooks/usePlaybackProgress';
+import { SeekBar } from '../Library/SeekBar';
+import { PlaybackControls } from '../Library/PlaybackControls';
 import { formatTime } from '../../utils/formatTime';
+import { Volume2, VolumeX } from 'lucide-react';
 
 export function PlaybackBar() {
-  const { togglePlay, nextTrack, previousTrack, volume, isMuted, setVolume, toggleMute } =
-    useMusicStore();
-
-  const {
-    track,
-    currentTime,
-    progressPercent,
-    hoverPosition,
-    isDragging,
-    seekBarRef,
-    handleMouseDown,
-    handleMouseMove,
-    handleMouseLeave,
-  } = usePlaybackProgress();
-
-  const isPlaying = useMusicStore((state) => state.isPlaying);
+  const { volume, isMuted, setVolume, toggleMute } = useMusicStore();
+  const { track, currentTime } = usePlaybackProgress();
 
   if (!track) {
     return (
@@ -46,82 +34,18 @@ export function PlaybackBar() {
           </div>
         </div>
 
-        {/* Playback controls */}
-        <div className="flex-1 flex flex-col items-center gap-1">
-          <div className="flex items-center gap-4">
-            <Button variant="outline" size="sm" onClick={previousTrack} aria-label="Previous track">
-              <SkipBack className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="primary"
-              size="md"
-              onClick={togglePlay}
-              aria-label={isPlaying ? 'Pause' : 'Play'}
-            >
-              {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
-            </Button>
-            <Button variant="outline" size="sm" onClick={nextTrack} aria-label="Next track">
-              <SkipForward className="w-4 h-4" />
-            </Button>
-          </div>
-
+        {/* Controls + seek bar */}
+        <div className="flex-1 flex flex-col items-center justify-center gap-1">
+          <PlaybackControls size="md" className="gap-4" />
           <div className="w-full max-w-2xl flex items-center gap-3">
             <span className="text-xs text-earth-moss w-10 text-right">
               {formatTime(currentTime)}
             </span>
-            <div
-              ref={seekBarRef}
-              className="flex-1 h-6 flex items-center cursor-pointer group relative"
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-              role="slider"
-              aria-label="Seek track position"
-              aria-valuemin={0}
-              aria-valuemax={track.duration}
-              aria-valuenow={currentTime}
-              aria-valuetext={formatTime(currentTime)}
-              tabIndex={0}
-            >
-              <div className="w-full h-1 bg-earth-stone/30 rounded-full relative">
-                <div
-                  className="h-full bg-primary rounded-full"
-                  style={{ width: `${progressPercent}%` }}
-                />
-                {hoverPosition !== null && (
-                  <div
-                    className="absolute top-0 h-full bg-earth-sage/50 rounded-full"
-                    style={{ width: `${hoverPosition}%` }}
-                  />
-                )}
-              </div>
-              <div
-                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-primary rounded-full group-hover:opacity-100 transition-opacity"
-                style={{
-                  left: `${progressPercent}%`,
-                  opacity: isDragging ? 1 : undefined,
-                }}
-              />
-            </div>
+            <SeekBar showTimes={false} showTooltip className="flex-1" touchHeight="h-3" />
             <span className="text-xs text-earth-moss w-10">
               -{formatTime(track.duration - currentTime)}
             </span>
           </div>
-
-          {/* Time tooltip */}
-          {hoverPosition !== null && track && seekBarRef.current && (
-            <div
-              className="fixed -translate-x-1/2 px-2 py-0.5 bg-earth-moss text-white font-medium text-xs rounded shadow-sm pointer-events-none z-50"
-              style={{
-                left:
-                  seekBarRef.current.getBoundingClientRect().left +
-                  (seekBarRef.current.getBoundingClientRect().width * hoverPosition) / 100,
-                top: seekBarRef.current.getBoundingClientRect().top - 22,
-              }}
-            >
-              {formatTime((hoverPosition / 100) * track.duration)}
-            </div>
-          )}
         </div>
 
         {/* Volume */}

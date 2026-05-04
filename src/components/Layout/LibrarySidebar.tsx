@@ -39,13 +39,15 @@ export function LibrarySidebar() {
   return (
     <>
       <aside
-        className={`h-full bg-white border-r border-earth-stone/30 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'w-16' : 'w-64'
-          }`}
+        className={`h-full bg-white border-r border-earth-stone/30 flex flex-col transition-all duration-300 ${
+          isSidebarCollapsed ? 'w-16' : 'w-64'
+        }`}
       >
         {/* Header */}
         <div
-          className={`p-4 border-b border-earth-stone/30 flex items-center ${isSidebarCollapsed ? 'justify-center' : 'justify-between'
-            }`}
+          className={`p-4 border-b border-earth-stone/30 flex items-center ${
+            isSidebarCollapsed ? 'justify-center' : 'justify-between'
+          }`}
         >
           {!isSidebarCollapsed ? (
             <div className="flex items-center gap-2">
@@ -89,10 +91,11 @@ export function LibrarySidebar() {
                 size="sm"
                 onClick={() => setActivePlaylist(null)}
                 aria-label="All Songs"
-                className={`w-full justify-start gap-3 px-3 py-2 rounded-lg transition-colors ${activePlaylistId === null
-                  ? ''
-                  : 'border-transparent hover:bg-muted/10 text-earth-moss'
-                  }`}
+                className={`w-full justify-start gap-3 px-3 py-2 rounded-lg transition-colors ${
+                  activePlaylistId === null
+                    ? ''
+                    : 'border-transparent hover:bg-muted/10 text-earth-moss'
+                }`}
               >
                 <Music className="w-5 h-5 flex-shrink-0" />
                 {!isSidebarCollapsed && (
@@ -167,10 +170,11 @@ export function LibrarySidebar() {
                     size="sm"
                     onClick={() => setActivePlaylist(playlist.id)}
                     aria-label={playlist.name}
-                    className={`w-full justify-start gap-3 px-3 py-2 rounded-lg transition-colors ${activePlaylistId === playlist.id
+                    className={`w-full justify-start gap-3 px-3 py-2 rounded-lg transition-colors ${
+                      activePlaylistId === playlist.id
                         ? ''
                         : 'border-transparent hover:bg-muted/10 text-earth-moss'
-                      }`}
+                    }`}
                   >
                     <ListMusic className="w-5 h-5 flex-shrink-0" />
                     {!isSidebarCollapsed && (
@@ -212,8 +216,9 @@ export function LibrarySidebar() {
                 <a
                   href={HOST_URL}
                   aria-label="Back to Portfolio"
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-earth-moss hover:text-earth-forest hover:bg-muted/10 transition-colors ${isSidebarCollapsed ? 'justify-center' : ''
-                    }`}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-earth-moss hover:text-earth-forest hover:bg-muted/10 transition-colors ${
+                    isSidebarCollapsed ? 'justify-center' : ''
+                  }`}
                 >
                   <Home className="w-5 h-5 flex-shrink-0" />
                   {!isSidebarCollapsed && <span className="text-sm">Portfolio</span>}
@@ -236,8 +241,9 @@ export function LibrarySidebar() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="View source on GitHub"
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-earth-moss hover:text-earth-forest hover:bg-muted/10 transition-colors ${isSidebarCollapsed ? 'justify-center' : ''
-                    }`}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-earth-moss hover:text-earth-forest hover:bg-muted/10 transition-colors ${
+                    isSidebarCollapsed ? 'justify-center' : ''
+                  }`}
                 >
                   <Github className="w-5 h-5 flex-shrink-0" />
                   {!isSidebarCollapsed && <span className="text-sm">GitHub</span>}

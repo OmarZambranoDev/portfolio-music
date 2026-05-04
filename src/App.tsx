@@ -1,15 +1,18 @@
 import { useEffect } from 'react';
 import { ToastProvider, TooltipProvider } from '@portfolio/ui';
 import { useMusicStore } from './store/musicStore';
+import { useIsMobile } from './hooks/useIsMobile';
 import { LibrarySidebar } from './components/Layout/LibrarySidebar';
 import { PlaybackBar } from './components/Layout/PlaybackBar';
 import { AllSongsView } from './components/Library/AllSongsView';
 import { PlaylistView } from './components/Library/PlaylistView';
+import { MobileLayout } from './components/Layout/MobileLayout';
 
 function App() {
   const activePlaylistId = useMusicStore((state) => state.activePlaylistId);
   const loadTracks = useMusicStore((state) => state.loadTracks);
   const isLoaded = useMusicStore((state) => state.isLoaded);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     loadTracks();
@@ -20,9 +23,19 @@ function App() {
       <div className="h-screen flex items-center justify-center bg-gradient-to-b from-earth-stone/20 via-white to-earth-sand/20">
         <div className="text-center">
           <div className="inline-block w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mb-4" />
-          <p className="text-earth-sage">Loading tracks...</p>
+          <p className="text-earth-moss">Loading tracks...</p>
         </div>
       </div>
+    );
+  }
+
+  if (isMobile) {
+    return (
+      <TooltipProvider>
+        <ToastProvider>
+          <MobileLayout />
+        </ToastProvider>
+      </TooltipProvider>
     );
   }
 
