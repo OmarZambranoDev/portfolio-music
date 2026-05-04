@@ -141,7 +141,7 @@ export function LibrarySidebar() {
 
           {/* Create playlist button - collapsed */}
           {isSidebarCollapsed && (
-            <div className="mt-4 flex justify-center">
+            <div className="mt-4 mb-4 flex justify-center">
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button

@@ -129,12 +129,12 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
         />
       ) : (
         <div className="flex-1 bg-white rounded-lg border border-earth-stone/30 overflow-hidden flex flex-col">
-          <div className="grid grid-cols-[auto,1fr,1fr,1fr,auto] gap-4 px-4 py-2 bg-muted/10 border-b border-earth-stone/30 text-sm font-medium text-earth-forest flex-shrink-0">
-            <div className="w-8">#</div>
+          <div className="grid grid-cols-[1fr,auto] md:grid-cols-[auto,2fr,1fr,1fr,auto] gap-2 md:gap-4 px-3 md:px-4 py-2 bg-muted/10 border-b border-earth-stone/30 text-sm font-medium text-earth-forest flex-shrink-0">
+            <div className="hidden md:block w-8">#</div>
             <div>Title</div>
-            <div>Artist</div>
-            <div>Album</div>
-            <div className="w-20 text-right">Duration</div>
+            <div className="hidden md:block">Artist</div>
+            <div className="hidden md:block">Album</div>
+            <div className="w-20 md:w-24 text-right">Duration</div>
           </div>
 
           <div ref={scrollRef} className="flex-1 overflow-auto">

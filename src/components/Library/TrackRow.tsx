@@ -1,3 +1,4 @@
+import { useRef, useEffect, useState } from 'react';
 import {
   Button,
   DropdownMenu,
@@ -51,23 +52,52 @@ export function TrackRow({
     }
   };
 
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
+
+  const clickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleRowClick = () => {
+    if (isTouchDevice) {
+      // Touch device (mobile + tablet): immediate play
+      if (isCurrentTrack) {
+        onTogglePlay?.();
+      } else {
+        onPlay(track.id);
+      }
+    } else {
+      // Mouse device: single click selects, double click plays
+      if (clickTimerRef.current) {
+        clearTimeout(clickTimerRef.current);
+        clickTimerRef.current = null;
+        onDoubleClick?.(track);
+      } else {
+        clickTimerRef.current = setTimeout(() => {
+          onSelect?.(track.id);
+          clickTimerRef.current = null;
+        }, 200);
+      }
+    }
+  };
+
   return (
     <div
       data-index={index}
       ref={measureElement}
       style={style}
-      className={`grid grid-cols-[auto,1fr,1fr,1fr,auto] gap-4 px-4 items-center transition-colors border-b border-earth-stone/30 absolute top-0 left-0 w-full cursor-pointer group ${
-        isCurrentTrack
-          ? 'bg-earth-sand/30'
-          : isSelected
-            ? 'bg-earth-stone/20'
-            : 'hover:bg-earth-stone/20'
-      }`}
-      onClick={() => onSelect?.(track.id)}
-      onDoubleClick={() => onDoubleClick?.(track)}
+      className={`grid grid-cols-[1fr,auto] md:grid-cols-[auto,2fr,1fr,1fr,auto] gap-2 md:gap-4 px-3 md:px-4 items-center transition-colors border-b border-earth-stone/30 absolute top-0 left-0 w-full cursor-pointer group ${isCurrentTrack
+        ? 'bg-earth-sand/30'
+        : isSelected
+          ? 'md:bg-earth-stone/20'
+          : 'hover:bg-earth-stone/20'
+        }`}
+      onClick={handleRowClick}
     >
-      {/* Track number / Play-Pause icon */}
-      <div className="w-8 flex items-center justify-center">
+      {/* Track number / Play-Pause icon — hidden on mobile */}
+      <div className="hidden md:flex w-8 items-center justify-center">
         {isCurrentTrack ? (
           <Button
             variant="primary"
@@ -95,35 +125,33 @@ export function TrackRow({
       </div>
 
       {/* Title + cover */}
-      <div className="flex items-center gap-3 min-w-0">
+      <div className="flex items-center gap-2 md:gap-3 min-w-0">
         <img
           src={track.coverArt}
           alt={`${track.album} cover art`}
-          className="w-8 h-8 rounded object-cover flex-shrink-0"
+          className="w-8 h-8 md:w-8 md:h-8 rounded object-cover flex-shrink-0"
         />
         <span
-          className={`font-medium text-sm truncate ${
-            isCurrentTrack ? 'text-primary' : 'text-earth-forest'
-          }`}
+          className={`font-medium text-sm truncate ${isCurrentTrack ? 'text-primary' : 'text-earth-forest'
+            }`}
         >
           {track.title}
         </span>
       </div>
 
-      {/* Artist */}
-      <div className="text-earth-moss text-sm truncate">{track.artist}</div>
+      {/* Artist — hidden on mobile */}
+      <div className="hidden md:block text-earth-moss text-sm truncate">{track.artist}</div>
 
-      {/* Album */}
-      <div className="text-earth-moss text-sm truncate">{track.album}</div>
+      {/* Album — hidden on mobile */}
+      <div className="hidden md:block text-earth-moss text-sm truncate">{track.album}</div>
 
       {/* Duration + actions */}
-      <div className="w-24 flex items-center justify-end gap-2">
+      <div className="w-20 md:w-24 flex items-center justify-end gap-1 md:gap-2">
         <span className="text-earth-moss text-xs">{formatTime(track.duration)}</span>
 
         <div
-          className={`items-center ${
-            isSelected || isCurrentTrack ? 'flex' : 'hidden group-hover:flex'
-          }`}
+          className={`items-center ${isSelected || isCurrentTrack ? 'flex' : 'hidden md:group-hover:flex'
+            }`}
         >
           {showRemoveButton ? (
             <Button
