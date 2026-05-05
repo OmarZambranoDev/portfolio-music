@@ -88,12 +88,13 @@ export function TrackRow({
       data-index={index}
       ref={measureElement}
       style={style}
-      className={`grid grid-cols-[1fr,auto] md:grid-cols-[auto,2fr,1fr,1fr,auto] gap-2 md:gap-4 px-3 md:px-4 items-center transition-colors border-b border-earth-stone/30 absolute top-0 left-0 w-full cursor-pointer group ${isCurrentTrack
-        ? 'bg-earth-sand/30'
-        : isSelected
-          ? 'md:bg-earth-stone/20'
-          : 'hover:bg-earth-stone/20'
-        }`}
+      className={`grid grid-cols-[1fr,auto] md:grid-cols-[auto,2fr,1fr,1fr,auto] gap-2 md:gap-4 px-3 md:px-4 items-center transition-colors border-b border-earth-stone/30 absolute top-0 left-0 w-full cursor-pointer group ${
+        isCurrentTrack
+          ? 'bg-earth-sand/30'
+          : isSelected
+            ? 'md:bg-earth-stone/20'
+            : 'hover:bg-earth-stone/20'
+      }`}
       onClick={handleRowClick}
     >
       {/* Track number / Play-Pause icon — hidden on mobile */}
@@ -132,8 +133,9 @@ export function TrackRow({
           className="w-8 h-8 md:w-8 md:h-8 rounded object-cover flex-shrink-0"
         />
         <span
-          className={`font-medium text-sm truncate ${isCurrentTrack ? 'text-primary' : 'text-earth-forest'
-            }`}
+          className={`font-medium text-sm truncate ${
+            isCurrentTrack ? 'text-primary' : 'text-earth-forest'
+          }`}
         >
           {track.title}
         </span>
@@ -150,8 +152,9 @@ export function TrackRow({
         <span className="text-earth-moss text-xs">{formatTime(track.duration)}</span>
 
         <div
-          className={`items-center ${isSelected || isCurrentTrack ? 'flex' : 'hidden md:group-hover:flex'
-            }`}
+          className={`items-center ${
+            isSelected || isCurrentTrack ? 'flex' : 'hidden md:group-hover:flex'
+          }`}
         >
           {showRemoveButton ? (
             <Button

@@ -15,7 +15,12 @@ interface SearchTrackResultProps {
   onAddToPlaylist: (track: Track) => void;
 }
 
-export function SearchTrackResult({ track, isPlaying, onPlay, onAddToPlaylist }: SearchTrackResultProps) {
+export function SearchTrackResult({
+  track,
+  isPlaying,
+  onPlay,
+  onAddToPlaylist,
+}: SearchTrackResultProps) {
   return (
     <div
       className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors cursor-pointer ${
@@ -29,7 +34,11 @@ export function SearchTrackResult({ track, isPlaying, onPlay, onAddToPlaylist }:
         className="w-10 h-10 rounded object-cover flex-shrink-0"
       />
       <div className="flex-1 min-w-0">
-        <p className={`text-sm font-medium truncate ${isPlaying ? 'text-primary' : 'text-earth-forest'}`}>
+        <p
+          className={`text-sm font-medium truncate ${
+            isPlaying ? 'text-primary' : 'text-earth-forest'
+          }`}
+        >
           {track.title}
         </p>
         <p className="text-xs text-earth-moss truncate">{track.artist}</p>

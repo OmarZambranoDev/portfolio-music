@@ -26,14 +26,12 @@ export function MobileLayout() {
   }, [loadTracks]);
 
   useEffect(() => {
-    const unsubscribe = useMusicStore.subscribe(
-      (state, prevState) => {
-        if (state.currentTrackId && state.currentTrackId !== prevState.currentTrackId) {
-          const { activePlaylistId } = useMusicStore.getState();
-          setPlayContext(activePlaylistId || 'all-songs');
-        }
-      },
-    );
+    const unsubscribe = useMusicStore.subscribe((state, prevState) => {
+      if (state.currentTrackId && state.currentTrackId !== prevState.currentTrackId) {
+        const { activePlaylistId } = useMusicStore.getState();
+        setPlayContext(activePlaylistId || 'all-songs');
+      }
+    });
     return unsubscribe;
   }, []);
 

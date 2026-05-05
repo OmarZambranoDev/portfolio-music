@@ -11,7 +11,11 @@ interface MobileSearchViewProps {
   onNavigateToPlaylist?: (playlistId: string) => void;
 }
 
-export function MobileSearchView({ searchQuery, onSearchQueryChange, onNavigateToPlaylist }: MobileSearchViewProps) {
+export function MobileSearchView({
+  searchQuery,
+  onSearchQueryChange,
+  onNavigateToPlaylist,
+}: MobileSearchViewProps) {
   const { allTracks, playlists, playTrack, currentTrackId, isPlaying, setActivePlaylist } =
     useMusicStore();
 
@@ -33,11 +37,11 @@ export function MobileSearchView({ searchQuery, onSearchQueryChange, onNavigateT
 
   const filteredTracks = searchQuery
     ? allTracks.filter(
-      (t) =>
-        t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        t.artist.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        t.album.toLowerCase().includes(searchQuery.toLowerCase()),
-    )
+        (t) =>
+          t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          t.artist.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          t.album.toLowerCase().includes(searchQuery.toLowerCase())
+      )
     : [];
 
   const handlePlay = (trackId: string) => {
