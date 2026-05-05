@@ -37,7 +37,7 @@ export function usePlaybackProgress() {
         if (animationRef.current) cancelAnimationFrame(animationRef.current);
       };
     }
-  }, [isPlaying, currentTrackId, isDragging]);
+  }, [isPlaying, currentTrackId, isDragging, track]);
 
   const progressPercent = track ? (currentTime / track.duration) * 100 : 0;
 
