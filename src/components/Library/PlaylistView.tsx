@@ -87,7 +87,6 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
               aria-label="Play all tracks"
             >
               <Play className="w-4 h-4 mr-1" />
-              Play All
             </Button>
             <Button
               variant="outline"

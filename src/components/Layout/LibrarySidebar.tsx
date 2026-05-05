@@ -226,7 +226,7 @@ export function LibrarySidebar() {
               </TooltipTrigger>
               {isSidebarCollapsed && (
                 <TooltipContent side="right" className="bg-earth-moss">
-                  <p>Back to Portfolio</p>
+                  <p>Omar's Portfolio</p>
                 </TooltipContent>
               )}
             </Tooltip>

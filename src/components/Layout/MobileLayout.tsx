@@ -13,28 +13,30 @@ type LibraryView = 'home' | 'allSongs' | 'playlist';
 type PlayContext = 'all-songs' | string | null;
 
 export function MobileLayout() {
-  const { loadTracks, isLoaded, currentTrackId } = useMusicStore();
+  const { loadTracks, isLoaded, currentTrackId, setActivePlaylist } = useMusicStore();
   const [activeTab, setActiveTab] = useState<MobileTab>('library');
   const [libraryView, setLibraryView] = useState<LibraryView>('home');
   const [playContext, setPlayContext] = useState<PlayContext>(null);
   const [isPlayerExpanded, setIsPlayerExpanded] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [navigatedFromSearch, setNavigatedFromSearch] = useState(false);
 
   useEffect(() => {
     loadTracks();
   }, [loadTracks]);
 
-  // Track play context globally so it survives tab switches
   useEffect(() => {
-    const unsubscribe = useMusicStore.subscribe((state, prevState) => {
-      if (state.currentTrackId && state.currentTrackId !== prevState.currentTrackId) {
-        const { activePlaylistId } = useMusicStore.getState();
-        setPlayContext(activePlaylistId || 'all-songs');
-      }
-    });
+    const unsubscribe = useMusicStore.subscribe(
+      (state, prevState) => {
+        if (state.currentTrackId && state.currentTrackId !== prevState.currentTrackId) {
+          const { activePlaylistId } = useMusicStore.getState();
+          setPlayContext(activePlaylistId || 'all-songs');
+        }
+      },
+    );
     return unsubscribe;
   }, []);
 
-  // Collapse player when switching tabs or navigating
   const handleTabChange = (tab: MobileTab) => {
     setActiveTab(tab);
     setIsPlayerExpanded(false);
@@ -73,10 +75,26 @@ export function MobileLayout() {
             libraryView={libraryView}
             onLibraryViewChange={handleLibraryViewChange}
             playContext={playContext}
+            navigatedFromSearch={navigatedFromSearch}
+            onBackToSearch={() => {
+              setNavigatedFromSearch(false);
+              setActiveTab('search');
+            }}
           />
         );
       case 'search':
-        return <MobileSearchView />;
+        return (
+          <MobileSearchView
+            searchQuery={searchQuery}
+            onSearchQueryChange={setSearchQuery}
+            onNavigateToPlaylist={(playlistId) => {
+              setActivePlaylist(playlistId);
+              setLibraryView('playlist');
+              setNavigatedFromSearch(true);
+              setActiveTab('library');
+            }}
+          />
+        );
       case 'profile':
         return <MobileProfileView />;
     }
@@ -85,7 +103,6 @@ export function MobileLayout() {
   return (
     <ToastProvider>
       <div className="h-screen flex flex-col bg-gradient-to-b from-earth-stone/20 via-white to-earth-sand/20">
-        {/* Main content or expanded player */}
         <div className="flex-1 overflow-auto">
           {isPlayerExpanded ? (
             <ExpandedPlayer onClose={() => setIsPlayerExpanded(false)} />
@@ -98,7 +115,6 @@ export function MobileLayout() {
           <CondensedPlaybackBar onExpand={() => setIsPlayerExpanded(true)} />
         )}
 
-        {/* Bottom navigation */}
         <nav className="flex items-center justify-around py-2 px-4 bg-white border-t border-earth-stone/30">
           <Button
             variant="outline"

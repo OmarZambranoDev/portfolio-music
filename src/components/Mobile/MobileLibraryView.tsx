@@ -14,12 +14,16 @@ interface MobileLibraryViewProps {
   libraryView: LibraryView;
   onLibraryViewChange: (view: LibraryView) => void;
   playContext: PlayContext;
+  navigatedFromSearch?: boolean;
+  onBackToSearch?: () => void;
 }
 
 export function MobileLibraryView({
   libraryView,
   onLibraryViewChange,
   playContext,
+  navigatedFromSearch = false,
+  onBackToSearch,
 }: MobileLibraryViewProps) {
   const { allTracks, playlists, activePlaylistId, setActivePlaylist } = useMusicStore();
 
@@ -45,7 +49,11 @@ export function MobileLibraryView({
   };
 
   const navigateHome = () => {
-    onLibraryViewChange('home');
+    if (navigatedFromSearch && onBackToSearch) {
+      onBackToSearch();
+    } else {
+      onLibraryViewChange('home');
+    }
   };
 
   const { handleTouchStart, handleTouchEnd } = useSwipeBack(navigateHome);
@@ -56,7 +64,7 @@ export function MobileLibraryView({
       <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
         <div className="px-4 pt-4">
           <Button variant="outline" size="sm" onClick={navigateHome}>
-            ← Library
+            ← {navigatedFromSearch ? 'Search' : 'Library'}
           </Button>
         </div>
         <AllSongsView />
@@ -70,7 +78,7 @@ export function MobileLibraryView({
       <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
         <div className="px-4 pt-4">
           <Button variant="outline" size="sm" onClick={navigateHome}>
-            ← Library
+            ← {navigatedFromSearch ? 'Search' : 'Library'}
           </Button>
         </div>
         <PlaylistView playlistId={activePlaylistId} />
@@ -101,9 +109,7 @@ export function MobileLibraryView({
           size="sm"
           onClick={navigateToAllSongs}
           className={`w-full justify-start gap-3 px-3 py-2 rounded-lg mb-2 ${
-            playContext === 'all-songs'
-              ? ''
-              : 'border-transparent hover:bg-muted/10 text-earth-moss'
+            playContext === 'all-songs' ? '' : 'border-transparent hover:bg-muted/10 text-earth-moss'
           }`}
         >
           <Music className="w-5 h-5 flex-shrink-0" />
@@ -133,9 +139,7 @@ export function MobileLibraryView({
               size="sm"
               onClick={() => navigateToPlaylist(playlist.id)}
               className={`w-full justify-start gap-3 px-3 py-2 rounded-lg ${
-                playContext === playlist.id
-                  ? ''
-                  : 'border-transparent hover:bg-muted/10 text-earth-moss'
+                playContext === playlist.id ? '' : 'border-transparent hover:bg-muted/10 text-earth-moss'
               }`}
             >
               <ListMusic className="w-5 h-5 flex-shrink-0" />

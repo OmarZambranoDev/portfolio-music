@@ -13,7 +13,7 @@ export function MobileProfileView() {
           className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white border border-earth-stone/30 text-earth-forest hover:bg-earth-stone/10 transition-colors"
         >
           <Home className="w-5 h-5" />
-          <span>Back to Portfolio</span>
+          <span>Omar's Profile</span>
         </a>
         <a
           href={GITHUB_URL}
