@@ -31,5 +31,10 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
+    exclude: ['src/e2e/**', 'node_modules/**'],
+    setupFiles: ['src/test-setup.ts'],
+    onConsoleLog: (log) => {
+      if (log.includes('was not wrapped in act')) return false;
+    },
   },
 });

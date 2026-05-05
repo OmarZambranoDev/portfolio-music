@@ -49,16 +49,16 @@ test.describe('Playback', () => {
   });
 
   test('should mute and unmute volume', async ({ page }) => {
-  // Play a track first so the playback bar is visible
-  const firstPlayButton = page.locator('[data-index="0"] button[aria-label^="Play"]').first();
-  await firstPlayButton.dispatchEvent('click');
-  await expect(page.getByText('No track selected')).not.toBeVisible({ timeout: 5000 });
+    // Play a track first so the playback bar is visible
+    const firstPlayButton = page.locator('[data-index="0"] button[aria-label^="Play"]').first();
+    await firstPlayButton.dispatchEvent('click');
+    await expect(page.getByText('No track selected')).not.toBeVisible({ timeout: 5000 });
 
-  // Now the mute button should be visible
-  await page.locator('button[aria-label="Mute"]').click();
-  await expect(page.locator('button[aria-label="Unmute"]')).toBeVisible();
+    // Now the mute button should be visible
+    await page.locator('button[aria-label="Mute"]').click();
+    await expect(page.locator('button[aria-label="Unmute"]')).toBeVisible();
 
-  await page.locator('button[aria-label="Unmute"]').click();
-  await expect(page.locator('button[aria-label="Mute"]')).toBeVisible();
-});
+    await page.locator('button[aria-label="Unmute"]').click();
+    await expect(page.locator('button[aria-label="Mute"]')).toBeVisible();
+  });
 });
