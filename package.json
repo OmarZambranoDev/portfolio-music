@@ -25,7 +25,7 @@
     ]
   },
   "dependencies": {
-    "@omarzambranodev/portfolio-ui": "latest",
+    "@OmarZambranoDev/portfolio-ui": "latest",
     "@tanstack/react-virtual": "^3.0.1",
     "clsx": "^2.1.0",
     "lucide-react": "^0.400.0",
