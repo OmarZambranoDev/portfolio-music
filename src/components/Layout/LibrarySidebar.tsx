@@ -208,7 +208,10 @@ export function LibrarySidebar() {
         </div>
 
         {/* Footer */}
-        <div key={isSidebarCollapsed ? 'footer-collapsed' : 'footer-expanded'} className="border-t border-earth-stone/30">
+        <div
+          key={isSidebarCollapsed ? 'footer-collapsed' : 'footer-expanded'}
+          className="border-t border-earth-stone/30"
+        >
           {/* Portfolio link */}
           <div className={`p-2 ${isSidebarCollapsed ? 'flex justify-center' : ''}`}>
             <Tooltip>
