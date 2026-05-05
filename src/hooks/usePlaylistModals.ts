@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useMusicStore } from '../store/musicStore';
-import { useToast } from '@portfolio/ui';
+import { useToast } from '@OmarZambranoDev/portfolio-ui';
 import { Track } from '../types';
 import { PlaylistModalMode } from '../components/Library/PlaylistModal';
 

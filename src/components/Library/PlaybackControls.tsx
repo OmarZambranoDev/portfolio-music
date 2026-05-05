@@ -1,4 +1,4 @@
-import { Button } from '@portfolio/ui';
+import { Button } from '@OmarZambranoDev/portfolio-ui';
 import { useMusicStore } from '../../store/musicStore';
 import { Play, Pause, SkipBack, SkipForward } from 'lucide-react';
 

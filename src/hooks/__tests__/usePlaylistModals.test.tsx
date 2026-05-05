@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { ToastProvider } from '@portfolio/ui';
+import { ToastProvider } from '@OmarZambranoDev/portfolio-ui';
 import { useMusicStore } from '../../store/musicStore';
 import { usePlaylistModals } from '../usePlaylistModals';
 

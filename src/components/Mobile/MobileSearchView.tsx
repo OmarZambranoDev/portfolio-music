@@ -1,4 +1,4 @@
-import { Button, SearchBar } from '@portfolio/ui';
+import { Button, SearchBar } from '@OmarZambranoDev/portfolio-ui';
 import { useMusicStore } from '../../store/musicStore';
 import { usePlaylistModals } from '../../hooks/usePlaylistModals';
 import { PlaylistModal } from '../Library/PlaylistModal';

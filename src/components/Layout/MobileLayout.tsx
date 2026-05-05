@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, ToastProvider } from '@portfolio/ui';
+import { Button, ToastProvider } from '@OmarZambranoDev/portfolio-ui';
 import { useMusicStore } from '../../store/musicStore';
 import { MobileLibraryView } from '../Mobile/MobileLibraryView';
 import { MobileSearchView } from '../Mobile/MobileSearchView';

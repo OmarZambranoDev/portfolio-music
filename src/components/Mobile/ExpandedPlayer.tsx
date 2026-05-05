@@ -1,5 +1,5 @@
 import { useRef, useCallback } from 'react';
-import { Button } from '@portfolio/ui';
+import { Button } from '@OmarZambranoDev/portfolio-ui';
 import { useMusicStore } from '../../store/musicStore';
 import { SeekBar } from '../Library/SeekBar';
 import { PlaybackControls } from '../Library/PlaybackControls';

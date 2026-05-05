@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Button, SearchBar, EmptyState } from '@portfolio/ui';
+import { Button, SearchBar, EmptyState } from '@OmarZambranoDev/portfolio-ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useMusicStore } from '../../store/musicStore';
 import { usePlaylistModals } from '../../hooks/usePlaylistModals';

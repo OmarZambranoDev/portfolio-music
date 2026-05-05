@@ -1,4 +1,4 @@
-import { Button, EmptyState, Tooltip, TooltipTrigger, TooltipContent } from '@portfolio/ui';
+import { Button, EmptyState, Tooltip, TooltipTrigger, TooltipContent } from '@OmarZambranoDev/portfolio-ui';
 import {
   Library,
   ChevronLeft,

@@ -6,7 +6,7 @@ import {
   ModalTitle,
   ModalBody,
   ModalFooter,
-} from '@portfolio/ui';
+} from '@OmarZambranoDev/portfolio-ui';
 import { Plus } from 'lucide-react';
 import { Track, Playlist } from '../../types';
 

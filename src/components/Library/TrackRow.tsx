@@ -5,7 +5,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from '@portfolio/ui';
+} from '@OmarZambranoDev/portfolio-ui';
 import { Track } from '../../types';
 import { formatTime } from '../../utils/formatTime';
 import { MoreVertical, Play, Pause, Plus, Trash2 } from 'lucide-react';

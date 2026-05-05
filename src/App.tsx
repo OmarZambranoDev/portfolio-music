@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { ToastProvider, TooltipProvider } from '@portfolio/ui';
+import { ToastProvider, TooltipProvider } from '@OmarZambranoDev/portfolio-ui';
 import { useMusicStore } from './store/musicStore';
 import { useIsMobile } from './hooks/useIsMobile';
 import { LibrarySidebar } from './components/Layout/LibrarySidebar';

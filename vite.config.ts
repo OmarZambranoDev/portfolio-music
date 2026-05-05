@@ -12,7 +12,7 @@ export default defineConfig({
       exposes: {
         './MusicApp': './src/App',
       },
-      shared: ['react', 'react-dom', '@portfolio/ui', 'zustand'],
+      shared: ['react', 'react-dom', '@OmarZambranoDev/portfolio-ui', 'zustand'],
     }),
   ],
   build: {

@@ -1,7 +1,7 @@
 import { vi } from 'vitest';
 
-vi.mock('@portfolio/ui', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@portfolio/ui')>();
+vi.mock('@OmarZambranoDev/portfolio-ui', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@OmarZambranoDev/portfolio-ui')>();
   return {
     ...actual,
     useToast: () => ({

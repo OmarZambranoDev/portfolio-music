@@ -4,7 +4,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from '@portfolio/ui';
+} from '@OmarZambranoDev/portfolio-ui';
 import { Track } from '../../types';
 import { MoreVertical, Plus } from 'lucide-react';
 

@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { SearchBar } from '@portfolio/ui';
+import { SearchBar } from '@OmarZambranoDev/portfolio-ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useMusicStore } from '../../store/musicStore';
 import { usePlaylistModals } from '../../hooks/usePlaylistModals';
