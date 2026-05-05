@@ -101,13 +101,13 @@ export function MobileLayout() {
   return (
     <ToastProvider>
       <div className="h-screen flex flex-col bg-gradient-to-b from-earth-stone/20 via-white to-earth-sand/20">
-        <div className="flex-1 overflow-auto">
+        <main className="flex-1 overflow-auto">
           {isPlayerExpanded ? (
             <ExpandedPlayer onClose={() => setIsPlayerExpanded(false)} />
           ) : (
             renderContent()
           )}
-        </div>
+        </main>
 
         {currentTrackId && !isPlayerExpanded && (
           <CondensedPlaybackBar onExpand={() => setIsPlayerExpanded(true)} />
@@ -119,7 +119,7 @@ export function MobileLayout() {
             size="sm"
             onClick={handleLibraryTab}
             className={`flex-col gap-0.5 px-3 py-1 border-transparent ${
-              activeTab === 'library' ? 'text-primary' : 'text-earth-sage'
+              activeTab === 'library' ? 'text-primary' : 'text-earth-moss'
             }`}
           >
             <Library className="w-5 h-5" />
@@ -130,7 +130,7 @@ export function MobileLayout() {
             size="sm"
             onClick={() => handleTabChange('search')}
             className={`flex-col gap-0.5 px-3 py-1 border-transparent ${
-              activeTab === 'search' ? 'text-primary' : 'text-earth-sage'
+              activeTab === 'search' ? 'text-primary' : 'text-earth-moss'
             }`}
           >
             <Search className="w-5 h-5" />
@@ -141,7 +141,7 @@ export function MobileLayout() {
             size="sm"
             onClick={() => handleTabChange('profile')}
             className={`flex-col gap-0.5 px-3 py-1 border-transparent ${
-              activeTab === 'profile' ? 'text-primary' : 'text-earth-sage'
+              activeTab === 'profile' ? 'text-primary' : 'text-earth-moss'
             }`}
           >
             <User className="w-5 h-5" />
