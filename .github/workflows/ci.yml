@@ -16,9 +16,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
 
-      - run: npm install --legacy-peer-deps
+      - run: npm install
 
       - run: npm run lint
 
@@ -36,9 +35,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
 
-      - run: npm install --legacy-peer-deps
+      - run: npm install
 
       - run: npx playwright install --with-deps chromium
 
