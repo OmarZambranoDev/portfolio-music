@@ -208,7 +208,7 @@ export function LibrarySidebar() {
         </div>
 
         {/* Footer */}
-        <div className="border-t border-earth-stone/30">
+        <div key={isSidebarCollapsed ? 'footer-collapsed' : 'footer-expanded'} className="border-t border-earth-stone/30">
           {/* Portfolio link */}
           <div className={`p-2 ${isSidebarCollapsed ? 'flex justify-center' : ''}`}>
             <Tooltip>
@@ -221,7 +221,7 @@ export function LibrarySidebar() {
                   }`}
                 >
                   <Home className="w-5 h-5 flex-shrink-0" />
-                  {!isSidebarCollapsed && <span className="text-sm">Portfolio</span>}
+                  {!isSidebarCollapsed && <span className="text-sm">Omar's Portfolio</span>}
                 </a>
               </TooltipTrigger>
               {isSidebarCollapsed && (
@@ -246,7 +246,7 @@ export function LibrarySidebar() {
                   }`}
                 >
                   <Github className="w-5 h-5 flex-shrink-0" />
-                  {!isSidebarCollapsed && <span className="text-sm">GitHub</span>}
+                  {!isSidebarCollapsed && <span className="text-sm">View Source on GitHub</span>}
                 </a>
               </TooltipTrigger>
               {isSidebarCollapsed && (
