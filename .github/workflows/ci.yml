@@ -20,12 +20,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@OmarZambranoDev'
 
       - run: npm ci
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - run: npm run lint
 
@@ -43,12 +41,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@OmarZambranoDev'
 
       - run: npm ci
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - run: npx playwright install --with-deps chromium
 
@@ -66,12 +62,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@OmarZambranoDev'
 
       - run: npm ci
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - run: npm run build
 
