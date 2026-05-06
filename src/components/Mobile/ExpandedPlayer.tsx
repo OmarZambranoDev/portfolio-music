@@ -33,7 +33,7 @@ export function ExpandedPlayer({ onClose }: ExpandedPlayerProps) {
 
   return (
     <div
-      className="relative bg-gradient-to-b from-earth-stone/20 via-white to-earth-sand/20 rounded-t-xl shadow-lg animate-slide-up flex flex-col min-h-full"
+      className="relative bg-gradient-to-b from-earth-stone/20 via-white to-earth-sand/20 rounded-t-xl shadow-lg animate-slide-up flex flex-col min-h-screen-dynamic"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -57,7 +57,7 @@ export function ExpandedPlayer({ onClose }: ExpandedPlayerProps) {
       </div>
 
       {/* Track Info */}
-      <div className="px-6 text-center mb-6 mt-20">
+      <div className="px-6 text-center mb-6">
         <h2 className="text-xl font-bold text-earth-forest truncate">{track.title}</h2>
         <p className="text-earth-moss truncate mt-1">{track.artist}</p>
       </div>
@@ -68,7 +68,9 @@ export function ExpandedPlayer({ onClose }: ExpandedPlayerProps) {
       </div>
 
       {/* Playback Controls */}
-      <PlaybackControls size="lg" className="gap-4" />
+      <div className="px-6 mb-6">
+        <PlaybackControls size="lg" className="gap-4" />
+      </div>
     </div>
   );
 }
