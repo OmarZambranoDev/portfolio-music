@@ -62,14 +62,13 @@ export function TrackRow({
 
   const handleRowClick = () => {
     if (isTouchDevice) {
-      // Touch device (mobile + tablet): immediate play
+      onSelect?.(track.id);
       if (isCurrentTrack) {
         onTogglePlay?.();
       } else {
         onPlay(track.id);
       }
     } else {
-      // Mouse device: single click selects, double click plays
       if (clickTimerRef.current) {
         clearTimeout(clickTimerRef.current);
         clickTimerRef.current = null;

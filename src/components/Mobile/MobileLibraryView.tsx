@@ -61,7 +61,7 @@ export function MobileLibraryView({
   // All Songs track list view
   if (libraryView === 'allSongs') {
     return (
-      <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+      <div className="h-full" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
         <div className="px-4 pt-4">
           <Button variant="outline" size="sm" onClick={navigateHome}>
             ← {navigatedFromSearch ? 'Search' : 'Library'}
@@ -75,7 +75,7 @@ export function MobileLibraryView({
   // Playlist view
   if (libraryView === 'playlist' && activePlaylistId) {
     return (
-      <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+      <div className="min-h-full" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
         <div className="px-4 pt-4">
           <Button variant="outline" size="sm" onClick={navigateHome}>
             ← {navigatedFromSearch ? 'Search' : 'Library'}
