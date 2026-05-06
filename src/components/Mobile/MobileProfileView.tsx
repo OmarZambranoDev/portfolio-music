@@ -1,7 +1,7 @@
 import { Home } from 'lucide-react';
 
 const HOST_URL = import.meta.env.VITE_HOST_URL || 'http://localhost:3000';
-const GITHUB_URL = 'https://github.com/your-username/portfolio-music';
+const GITHUB_URL = 'https://github.com/OmarZambranoDev/portfolio-music';
 
 export function MobileProfileView() {
   return (

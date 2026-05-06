@@ -1,4 +1,10 @@
-import { Button, EmptyState, Tooltip, TooltipTrigger, TooltipContent } from '@OmarZambranoDev/portfolio-ui';
+import {
+  Button,
+  EmptyState,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from '@OmarZambranoDev/portfolio-ui';
 import {
   Library,
   ChevronLeft,
@@ -14,6 +20,7 @@ import { usePlaylistModals } from '../../hooks/usePlaylistModals';
 import { PlaylistModal } from '../Library/PlaylistModal';
 
 const HOST_URL = import.meta.env.VITE_HOST_URL || 'http://localhost:3000';
+const GITHUB_URL = 'https://github.com/OmarZambranoDev/portfolio-music';
 
 export function LibrarySidebar() {
   const {
@@ -240,7 +247,7 @@ export function LibrarySidebar() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <a
-                  href="https://github.com/your-username/portfolio-music"
+                  href={GITHUB_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="View source on GitHub"
