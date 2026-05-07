@@ -1,16 +1,18 @@
 # Portfolio Music
 
+[![CI](https://github.com/OmarZambranoDev/portfolio-music/actions/workflows/ci.yml/badge.svg)](https://github.com/OmarZambranoDev/portfolio-music/actions/workflows/ci.yml)
+
 Music library and player micro-frontend remote for the portfolio platform. Built with Vite + React + TypeScript, deployed as a Module Federation remote.
 
 ## Overview
 
-- 🎵 200 tracks with search, sort, and filter
-- 📋 Playlist creation, editing, and management
-- 🎧 Persistent playback state with mock audio progress
-- 🎨 Earth-tone theme with shared `@OmarZambranoDev/portfolio-ui` components
-- 📦 Module Federation remote consumed by the Next.js host shell
-- 📱 Mobile-responsive with bottom navigation and condensed player
-- ✅ Unit tests with Vitest, E2E tests with Playwright, Lighthouse CI
+- 200 tracks with search, sort, and filter
+- Playlist creation, editing, and management
+- Persistent playback state with mock audio progress
+- Earth-tone theme with shared `@OmarZambranoDev/portfolio-ui` components
+- Module Federation remote consumed by the Next.js host shell
+- Mobile-responsive with bottom navigation and condensed player
+- Unit tests with Vitest, E2E tests with Playwright, Lighthouse CI
 
 ## Tech Stack
 
