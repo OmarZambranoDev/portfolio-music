@@ -48,11 +48,11 @@ export function ExpandedPlayer({ onClose }: ExpandedPlayerProps) {
       </div>
 
       {/* Album Art */}
-      <div className="flex justify-center px-8 pt-8 pb-14">
+      <div className="flex justify-center px-12 pt-2 pb-4">
         <img
           src={track.coverArt}
           alt={`${track.album} cover art`}
-          className="w-full max-w-sm aspect-square rounded-xl object-cover shadow-lg"
+          className="w-full max-w-[240px] aspect-square rounded-xl object-cover shadow-lg"
         />
       </div>
 
