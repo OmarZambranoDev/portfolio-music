@@ -33,7 +33,7 @@ export function ExpandedPlayer({ onClose }: ExpandedPlayerProps) {
 
   return (
     <div
-      className="relative bg-gradient-to-b from-earth-stone/20 via-white to-earth-sand/20 rounded-t-xl shadow-lg animate-slide-up flex flex-col"
+      className="relative bg-gradient-to-b from-earth-stone/20 via-white to-earth-sand/20 rounded-t-xl shadow-lg animate-slide-up flex flex-col h-full"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
