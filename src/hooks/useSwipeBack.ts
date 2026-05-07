@@ -1,6 +1,6 @@
 import { useRef, useCallback } from 'react';
 
-export function useSwipeBack(onSwipeBack: () => void, threshold = 80, edgeWidth = 120) {
+export function useSwipeBack(onSwipeBack: () => void, threshold = 80, edgeWidth = 200) {
   const touchStartX = useRef<number>(0);
   const touchStartY = useRef<number>(0);
 
