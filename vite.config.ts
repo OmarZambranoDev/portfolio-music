@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import federation from '@originjs/vite-plugin-federation';
+import { federation } from '@module-federation/vite';
 
 export default defineConfig({
   plugins: [
@@ -12,7 +12,12 @@ export default defineConfig({
       exposes: {
         './MusicApp': './src/App',
       },
-      shared: ['react', 'react-dom', '@OmarZambranoDev/portfolio-ui', 'zustand'],
+      shared: {
+        react: { singleton: true, requiredVersion: '18.2.0' },
+        'react-dom': { singleton: true, requiredVersion: '18.2.0' },
+        '@OmarZambranoDev/portfolio-ui': { singleton: true },
+        zustand: { singleton: true, version: '4.5.2' },
+      },
     }),
   ],
   build: {
