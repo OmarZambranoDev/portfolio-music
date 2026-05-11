@@ -4,6 +4,9 @@ import App from './App';
 import './index.css';
 import '@OmarZambranoDev/portfolio-ui/dist/index.css';
 
+const vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <App />
