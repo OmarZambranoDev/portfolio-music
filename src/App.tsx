@@ -19,11 +19,13 @@ function App() {
   }, [loadTracks]);
 
   useEffect(() => {
-    // Force layout recalculation after mount to handle browser chrome changes
-    const timer = setTimeout(() => {
-      window.dispatchEvent(new Event('resize'));
-    }, 100);
-    return () => clearTimeout(timer);
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        window.dispatchEvent(new Event('resize'));
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, []);
 
   if (!isLoaded) {
