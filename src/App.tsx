@@ -18,16 +18,6 @@ function App() {
     loadTracks();
   }, [loadTracks]);
 
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        window.dispatchEvent(new Event('resize'));
-      }
-    };
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-  }, []);
-
   if (!isLoaded) {
     return (
       <div className="h-screen-dynamic flex items-center justify-center bg-gradient-to-b from-earth-stone/20 via-white to-earth-sand/20">
@@ -41,32 +31,36 @@ function App() {
 
   if (isMobile) {
     return (
-      <TooltipProvider>
-        <ToastProvider>
-          <MobileLayout />
-        </ToastProvider>
-      </TooltipProvider>
+      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
+        <TooltipProvider>
+          <ToastProvider>
+            <MobileLayout />
+          </ToastProvider>
+        </TooltipProvider>
+      </div>
     );
   }
 
   return (
-    <TooltipProvider>
-      <ToastProvider>
-        <div className="h-screen-dynamic flex flex-col bg-gradient-to-b from-earth-stone/20 via-white to-earth-sand/20">
-          <div className="flex-1 flex overflow-hidden">
-            <LibrarySidebar />
-            <main className="flex-1 overflow-auto">
-              {activePlaylistId === null ? (
-                <AllSongsView />
-              ) : (
-                <PlaylistView playlistId={activePlaylistId} />
-              )}
-            </main>
+    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
+      <TooltipProvider>
+        <ToastProvider>
+          <div className="h-full flex flex-col bg-gradient-to-b from-earth-stone/20 via-white to-earth-sand/20">
+            <div className="flex-1 flex overflow-hidden">
+              <LibrarySidebar />
+              <main className="flex-1 overflow-auto">
+                {activePlaylistId === null ? (
+                  <AllSongsView />
+                ) : (
+                  <PlaylistView playlistId={activePlaylistId} />
+                )}
+              </main>
+            </div>
+            <PlaybackBar />
           </div>
-          <PlaybackBar />
-        </div>
-      </ToastProvider>
-    </TooltipProvider>
+        </ToastProvider>
+      </TooltipProvider>
+    </div>
   );
 }
 
