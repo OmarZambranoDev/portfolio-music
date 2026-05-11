@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       height: {
-        'screen-dynamic': 'calc(var(--vh, 1vh) * 100)',
+        'screen-dynamic': '100dvh',
       },
       colors: {
         primary: '#344b33',
