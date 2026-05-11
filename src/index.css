@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --vh: 1vh;
-}
-
-.h-screen-dynamic {
-  height: calc(var(--vh) * 100);
-}
-
 @keyframes slide-up {
   from {
     transform: translateY(100%);
