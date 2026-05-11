@@ -31,36 +31,32 @@ function App() {
 
   if (isMobile) {
     return (
-      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
-        <TooltipProvider>
-          <ToastProvider>
-            <MobileLayout />
-          </ToastProvider>
-        </TooltipProvider>
-      </div>
+      <TooltipProvider>
+        <ToastProvider>
+          <MobileLayout />
+        </ToastProvider>
+      </TooltipProvider>
     );
   }
 
   return (
-    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
-      <TooltipProvider>
-        <ToastProvider>
-          <div className="h-full flex flex-col bg-gradient-to-b from-earth-stone/20 via-white to-earth-sand/20">
-            <div className="flex-1 flex overflow-hidden">
-              <LibrarySidebar />
-              <main className="flex-1 overflow-auto">
-                {activePlaylistId === null ? (
-                  <AllSongsView />
-                ) : (
-                  <PlaylistView playlistId={activePlaylistId} />
-                )}
-              </main>
-            </div>
-            <PlaybackBar />
+    <TooltipProvider>
+      <ToastProvider>
+        <div className="h-screen-dynamic flex flex-col bg-gradient-to-b from-earth-stone/20 via-white to-earth-sand/20">
+          <div className="flex-1 flex overflow-hidden">
+            <LibrarySidebar />
+            <main className="flex-1 overflow-auto">
+              {activePlaylistId === null ? (
+                <AllSongsView />
+              ) : (
+                <PlaylistView playlistId={activePlaylistId} />
+              )}
+            </main>
           </div>
-        </ToastProvider>
-      </TooltipProvider>
-    </div>
+          <PlaybackBar />
+        </div>
+      </ToastProvider>
+    </TooltipProvider>
   );
 }
 
