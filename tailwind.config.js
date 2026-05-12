@@ -4,11 +4,10 @@ export default {
   theme: {
     extend: {
       height: {
-        'screen-dynamic': '100dvh',
-        'dvh': '100dvh',
+        'screen-dynamic': '100svh',
       },
       minHeight: {
-        'dvh': '100dvh',
+        'screen-dynamic': '100svh',
       },
       colors: {
         primary: '#344b33',
