@@ -6,11 +6,13 @@ import { MobileSearchView } from '../Mobile/MobileSearchView';
 import { MobileProfileView } from '../Mobile/MobileProfileView';
 import { CondensedPlaybackBar } from '../Mobile/CondensedPlaybackBar';
 import { ExpandedPlayer } from '../Mobile/ExpandedPlayer';
-import { Library, Search, User } from 'lucide-react';
+import { Home, Library, Search, User } from 'lucide-react';
 
 type MobileTab = 'library' | 'search' | 'profile';
 type LibraryView = 'home' | 'allSongs' | 'playlist';
 type PlayContext = 'all-songs' | string | null;
+
+const HOST_URL = import.meta.env.VITE_HOST_URL || 'http://localhost:3000';
 
 export function MobileLayout() {
   const { loadTracks, isLoaded, currentTrackId, setActivePlaylist } = useMusicStore();
@@ -146,6 +148,15 @@ export function MobileLayout() {
           >
             <User className="w-5 h-5" />
             <span className="text-xs">Profile</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => (window.location.href = HOST_URL)}
+            className={`flex-col gap-0.5 px-3 py-1 border-transparent text-earth-moss`}
+          >
+            <Home className="w-5 h-5" />
+            <span className="text-xs">Home</span>
           </Button>
         </nav>
       </div>

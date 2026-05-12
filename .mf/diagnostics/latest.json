@@ -1,10 +1,10 @@
 {
   "latestErrorEvent": {
     "code": "TYPE-001",
-    "message": "Failed to generate type declaration. Execute the below cmd to reproduce and fix the error. #TYPE-001\nargs: {\"cmd\":\"npx tsc --project /Users/omarzambrano/Desktop/portfolio-mf/portfolio-music/node_modules/.federation/tsconfig.77f77ee2bbc6cba0a37606fc36fed461.json\"}\nView the docs to see how to solve: https://module-federation.io/guide/troubleshooting/type#type-001",
+    "message": "Failed to generate type declaration. Execute the below cmd to reproduce and fix the error. #TYPE-001\nargs: {\"cmd\":\"npx tsc --project /Users/omarzambrano/Desktop/portfolio-mf/portfolio-music/node_modules/.federation/tsconfig.7019e8079f7cf7023a7174e7dbe88d9c.json\"}\nView the docs to see how to solve: https://module-federation.io/guide/troubleshooting/type#type-001",
     "args": {
-      "cmd": "npx tsc --project /Users/omarzambrano/Desktop/portfolio-mf/portfolio-music/node_modules/.federation/tsconfig.77f77ee2bbc6cba0a37606fc36fed461.json"
+      "cmd": "npx tsc --project /Users/omarzambrano/Desktop/portfolio-mf/portfolio-music/node_modules/.federation/tsconfig.7019e8079f7cf7023a7174e7dbe88d9c.json"
     },
-    "timestamp": 1778616945830
+    "timestamp": 1778622016702
   }
 }
