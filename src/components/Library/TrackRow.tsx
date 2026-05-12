@@ -73,6 +73,31 @@ export function TrackRow({
     }
   };
 
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartRef.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+    };
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!touchStartRef.current) return;
+
+    const dx = Math.abs(e.changedTouches[0].clientX - touchStartRef.current.x);
+    const dy = Math.abs(e.changedTouches[0].clientY - touchStartRef.current.y);
+
+    // If finger moved more than 10px, it was a scroll — ignore
+    if (dx > 10 || dy > 10) {
+      touchStartRef.current = null;
+      return;
+    }
+
+    // It was a tap — let the onClick handler deal with it
+    touchStartRef.current = null;
+  };
+
   return (
     <div
       data-index={index}
@@ -86,6 +111,8 @@ export function TrackRow({
             : 'hover:bg-earth-stone/20'
       }`}
       onClick={handleRowClick}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
       {/* Track number / Play-Pause icon — hidden on mobile */}
       <div className="hidden md:flex w-8 items-center justify-center">
