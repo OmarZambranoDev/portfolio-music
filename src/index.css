@@ -14,7 +14,3 @@
 .animate-slide-up {
   animation: slide-up 0.3s ease-out;
 }
-
-nav {
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
