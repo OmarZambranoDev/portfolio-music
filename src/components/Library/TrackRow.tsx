@@ -43,6 +43,10 @@ export function TrackRow({
   measureElement,
   style,
 }: TrackRowProps) {
+  const clickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const isTapRef = useRef(false);
+
   const handlePlayClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (isCurrentTrack) {
@@ -52,30 +56,8 @@ export function TrackRow({
     }
   };
 
-  const clickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const handleRowClick = () => {
-    if (clickTimerRef.current) {
-      // Double-click detected
-      clearTimeout(clickTimerRef.current);
-      clickTimerRef.current = null;
-      onDoubleClick?.(track);
-    } else {
-      // Single click — play immediately
-      clickTimerRef.current = setTimeout(() => {
-        if (isCurrentTrack) {
-          onTogglePlay?.();
-        } else {
-          onPlay(track.id);
-        }
-        clickTimerRef.current = null;
-      }, 200);
-    }
-  };
-
-  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
-
   const handleTouchStart = (e: React.TouchEvent) => {
+    isTapRef.current = true;
     touchStartRef.current = {
       x: e.touches[0].clientX,
       y: e.touches[0].clientY,
@@ -83,19 +65,42 @@ export function TrackRow({
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-    if (!touchStartRef.current) return;
+    if (!touchStartRef.current || !isTapRef.current) return;
 
     const dx = Math.abs(e.changedTouches[0].clientX - touchStartRef.current.x);
     const dy = Math.abs(e.changedTouches[0].clientY - touchStartRef.current.y);
 
-    // If finger moved more than 10px, it was a scroll — ignore
     if (dx > 10 || dy > 10) {
-      touchStartRef.current = null;
+      isTapRef.current = false;
+    }
+
+    touchStartRef.current = null;
+  };
+
+  const handleRowClick = () => {
+    // Touch devices: play immediately on tap
+    if (isTapRef.current) {
+      if (isCurrentTrack) {
+        onTogglePlay?.();
+      } else {
+        onPlay(track.id);
+      }
+      isTapRef.current = false;
       return;
     }
 
-    // It was a tap — let the onClick handler deal with it
-    touchStartRef.current = null;
+    // Desktop: single click selects, double click plays
+    if (clickTimerRef.current) {
+      clearTimeout(clickTimerRef.current);
+      clickTimerRef.current = null;
+      onSelect?.(track.id); // Clear old selection
+      onDoubleClick?.(track);
+    } else {
+      clickTimerRef.current = setTimeout(() => {
+        onSelect?.(track.id);
+        clickTimerRef.current = null;
+      }, 200);
+    }
   };
 
   return (
@@ -147,7 +152,7 @@ export function TrackRow({
         <img
           src={track.coverArt}
           alt={`${track.album} cover art`}
-          className="w-8 h-8 md:w-8 md:h-8 rounded object-cover flex-shrink-0"
+          className="w-8 h-8 rounded object-cover flex-shrink-0"
         />
         <span
           className={`font-medium text-sm truncate ${
