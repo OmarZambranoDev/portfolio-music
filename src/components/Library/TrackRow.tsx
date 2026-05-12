@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef } from 'react';
 import {
   Button,
   DropdownMenu,
@@ -52,33 +52,24 @@ export function TrackRow({
     }
   };
 
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
-
-  useEffect(() => {
-    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  }, []);
-
   const clickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleRowClick = () => {
-    if (isTouchDevice) {
-      onSelect?.(track.id);
-      if (isCurrentTrack) {
-        onTogglePlay?.();
-      } else {
-        onPlay(track.id);
-      }
+    if (clickTimerRef.current) {
+      // Double-click detected
+      clearTimeout(clickTimerRef.current);
+      clickTimerRef.current = null;
+      onDoubleClick?.(track);
     } else {
-      if (clickTimerRef.current) {
-        clearTimeout(clickTimerRef.current);
+      // Single click — play immediately
+      clickTimerRef.current = setTimeout(() => {
+        if (isCurrentTrack) {
+          onTogglePlay?.();
+        } else {
+          onPlay(track.id);
+        }
         clickTimerRef.current = null;
-        onDoubleClick?.(track);
-      } else {
-        clickTimerRef.current = setTimeout(() => {
-          onSelect?.(track.id);
-          clickTimerRef.current = null;
-        }, 200);
-      }
+      }, 200);
     }
   };
 
