@@ -13,7 +13,7 @@ type LibraryView = 'home' | 'allSongs' | 'playlist';
 type PlayContext = 'all-songs' | string | null;
 
 export function MobileLayout() {
-  const { loadTracks, isLoaded, currentTrackId, setActivePlaylist } = useMusicStore();
+  const { loadTracks, currentTrackId, setActivePlaylist } = useMusicStore();
   const [activeTab, setActiveTab] = useState<MobileTab>('library');
   const [libraryView, setLibraryView] = useState<LibraryView>('home');
   const [playContext, setPlayContext] = useState<PlayContext>(null);
@@ -45,16 +45,16 @@ export function MobileLayout() {
     setIsPlayerExpanded(false);
   };
 
-  if (!isLoaded) {
-    return (
-      <div className="h-dvh flex items-center justify-center bg-gradient-to-b from-earth-stone/20 via-white to-earth-sand/20">
-        <div className="text-center">
-          <div className="inline-block w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mb-4" />
-          <p className="text-earth-moss">Loading tracks...</p>
-        </div>
-      </div>
-    );
-  }
+  // if (!isLoaded) {
+  //   return (
+  //     <div className="h-dvh flex items-center justify-center bg-gradient-to-b from-earth-stone/20 via-white to-earth-sand/20">
+  //       <div className="text-center">
+  //         <div className="inline-block w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mb-4" />
+  //         <p className="text-earth-moss">Loading tracks...</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   const handleLibraryTab = () => {
     if (activeTab === 'library' && libraryView !== 'home') {
