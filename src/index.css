@@ -14,3 +14,9 @@
 .animate-slide-up {
   animation: slide-up 0.3s ease-out;
 }
+
+@media (hover: none) {
+  .hover\:bg-earth-stone\/20:hover {
+    background-color: transparent;
+  }
+}
