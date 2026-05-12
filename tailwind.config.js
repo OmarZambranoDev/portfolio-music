@@ -5,6 +5,10 @@ export default {
     extend: {
       height: {
         'screen-dynamic': '100dvh',
+        'dvh': '100dvh',
+      },
+      minHeight: {
+        'dvh': '100dvh',
       },
       colors: {
         primary: '#344b33',

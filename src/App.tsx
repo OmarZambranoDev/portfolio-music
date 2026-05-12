@@ -20,7 +20,7 @@ function App() {
 
   if (!isLoaded) {
     return (
-      <div className="h-screen-dynamic flex items-center justify-center bg-gradient-to-b from-earth-stone/20 via-white to-earth-sand/20">
+      <div className="h-dvh flex items-center justify-center bg-gradient-to-b from-earth-stone/20 via-white to-earth-sand/20">
         <div className="text-center">
           <div className="inline-block w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mb-4" />
           <p className="text-earth-moss">Loading tracks...</p>
@@ -42,7 +42,7 @@ function App() {
   return (
     <TooltipProvider>
       <ToastProvider>
-        <div className="h-screen-dynamic flex flex-col bg-gradient-to-b from-earth-stone/20 via-white to-earth-sand/20">
+        <div className="h-dvh flex flex-col bg-gradient-to-b from-earth-stone/20 via-white to-earth-sand/20">
           <div className="flex-1 flex overflow-hidden">
             <LibrarySidebar />
             <main className="flex-1 overflow-auto">
