@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button, SearchBar, EmptyState } from '@OmarZambranoDev/portfolio-ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useMusicStore } from '../../store/musicStore';
@@ -47,6 +47,7 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
     isCurrentTrack,
     isSelected,
     isPlaying,
+    clearSelection,
   } = useTrackActions(undefined, {
     playlistId: playlist?.id || '',
     playlistName: playlist?.name || '',
@@ -58,6 +59,10 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
     estimateSize: () => 52,
     overscan: 10,
   });
+
+  useEffect(() => {
+    clearSelection();
+  }, [playlistId, clearSelection]);
 
   const isPlayingFromThisPlaylist = playContext === playlist!.id && currentTrackId !== null;
 
@@ -163,7 +168,7 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
                     key={track.id}
                     track={track}
                     index={virtualItem.index}
-                    isCurrentTrack={isCurrentTrack(track.id) && playContext === playlist.id}
+                    isCurrentTrack={isCurrentTrack(track.id) && playContext === playlist!.id}
                     isPlaying={isPlaying}
                     isSelected={isSelected(track.id)}
                     showRemoveButton

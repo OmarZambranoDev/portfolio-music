@@ -67,6 +67,10 @@ export function useTrackActions(
     [selectedTrackId]
   );
 
+  const clearSelection = useCallback(() => {
+    setSelectedTrackId(null);
+  }, []);
+
   return {
     handlePlay,
     handleTogglePlay,
@@ -77,5 +81,6 @@ export function useTrackActions(
     isCurrentTrack,
     isSelected,
     isPlaying,
+    clearSelection,
   };
 }
