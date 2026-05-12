@@ -13,8 +13,15 @@ interface PlaylistViewProps {
 }
 
 export function PlaylistView({ playlistId }: PlaylistViewProps) {
-  const { getPlaylistTracks, playlists, playTrack, togglePlay, currentTrackId, playContext } =
-    useMusicStore();
+  const {
+    getPlaylistTracks,
+    playlists,
+    playTrack,
+    togglePlay,
+    currentTrackId,
+    playContext,
+    isPlaying,
+  } = useMusicStore();
 
   const {
     modalMode,
@@ -46,7 +53,6 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
     handleRemove,
     isCurrentTrack,
     isSelected,
-    isPlaying,
     clearSelection,
   } = useTrackActions(undefined, {
     playlistId: playlist?.id || '',
@@ -64,7 +70,8 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
     clearSelection();
   }, [playlistId, clearSelection]);
 
-  const isPlayingFromThisPlaylist = playContext === playlist!.id && currentTrackId !== null;
+  const isPlayingFromThisPlaylist =
+    isPlaying && playContext === playlist!.id && currentTrackId !== null;
 
   if (!playlist) {
     return (
@@ -89,16 +96,18 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
             <Button
               variant="primary"
               onClick={() => {
-                if (isPlayingFromThisPlaylist) {
+                if (playContext === playlist!.id) {
+                  // This playlist is the play context — just toggle
                   togglePlay();
                 } else {
+                  // Different playlist or no track playing — start from beginning
                   if (filteredTracks.length > 0) playTrack(filteredTracks[0].id);
                 }
               }}
               disabled={filteredTracks.length === 0}
               aria-label={isPlayingFromThisPlaylist ? 'Pause playlist' : 'Play all tracks'}
             >
-              {isPlayingFromThisPlaylist ? (
+              {playContext === playlist!.id && isPlaying ? (
                 <Pause className="w-4 h-4" />
               ) : (
                 <Play className="w-4 h-4" />
