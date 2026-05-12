@@ -1,6 +1,6 @@
 export default function TestPage() {
   return (
-    <div style={{ height: '50dvh', display: 'flex', flexDirection: 'column', background: 'red' }}>
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', background: 'red' }}>
       <div
         style={{
           height: 64,
@@ -8,12 +8,25 @@ export default function TestPage() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          color: 'white',
         }}
       >
-        Header - 50dvh
+        Header
       </div>
-      <div style={{ flex: 1, background: 'green', overflow: 'auto' }}>Content - Half Screen</div>
-      <div style={{ height: 80, background: 'yellow' }}>Footer</div>
+      <div style={{ flex: 1, background: 'green', overflow: 'auto', color: 'white', padding: 16 }}>
+        Content - Should Fill Space
+      </div>
+      <div
+        style={{
+          height: 80,
+          background: 'yellow',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        Footer
+      </div>
     </div>
   );
 }
