@@ -113,7 +113,7 @@ export function TrackRow({
           ? 'bg-earth-sand/30'
           : isSelected
             ? 'md:bg-earth-stone/20'
-            : 'hover:bg-earth-stone/20'
+            : 'md:hover:bg-earth-stone/20'
       }`}
       onClick={handleRowClick}
       onTouchStart={handleTouchStart}
