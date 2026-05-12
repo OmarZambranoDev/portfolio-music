@@ -10,7 +10,7 @@ Music library and player micro-frontend remote for the portfolio platform. Built
 - Playlist creation, editing, and management
 - Persistent playback state with mock audio progress
 - Earth-tone theme with shared `@OmarZambranoDev/portfolio-ui` components
-- Module Federation remote consumed by the Next.js host shell
+- Module Federation remote consumed by the Vite host shell
 - Mobile-responsive with bottom navigation and condensed player
 - Unit tests with Vitest, E2E tests with Playwright, Lighthouse CI
 

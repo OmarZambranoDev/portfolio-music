@@ -11,6 +11,7 @@ interface MusicStore {
   isPlaying: boolean;
   volume: number;
   isMuted: boolean;
+  playContext: 'all-songs' | string | null;
 
   // Library state
   allTracks: Track[];
@@ -62,6 +63,7 @@ export const useMusicStore = create<MusicStore>()(
       isPlaying: false,
       volume: 0.8,
       isMuted: false,
+      playContext: null,
 
       // Initial library state
       allTracks: [],
@@ -136,34 +138,42 @@ export const useMusicStore = create<MusicStore>()(
       },
 
       // Playback controls
-      playTrack: (trackId) => set({ currentTrackId: trackId, currentTime: 0, isPlaying: true }),
+      playTrack: (trackId) => {
+        const { activePlaylistId } = get();
+        set({
+          currentTrackId: trackId,
+          currentTime: 0,
+          isPlaying: true,
+          playContext: activePlaylistId || 'all-songs',
+        });
+      },
       togglePlay: () => set((state) => ({ isPlaying: !state.isPlaying })),
       pauseTrack: () => set({ isPlaying: false }),
 
       nextTrack: () => {
-        const { currentTrackId, activePlaylistId, playlists } = get();
+        const { currentTrackId, playContext, playlists } = get();
         let tracks: string[];
 
-        if (activePlaylistId) {
-          tracks = playlists.find((p) => p.id === activePlaylistId)?.trackIds || [];
+        if (playContext && playContext !== 'all-songs') {
+          tracks = playlists.find((p) => p.id === playContext)?.trackIds || [];
         } else {
-          // All Songs view — use filtered/sorted order
           const { getFilteredTracks } = get();
           tracks = getFilteredTracks().map((t) => t.id);
         }
 
         if (!currentTrackId || tracks.length === 0) return;
         const currentIndex = tracks.indexOf(currentTrackId);
+        if (currentIndex === -1) return; // Track not in this context — shouldn't happen
         const nextTrackId = tracks[(currentIndex + 1) % tracks.length];
         set({ currentTrackId: nextTrackId, currentTime: 0 });
       },
 
       previousTrack: () => {
-        const { currentTrackId, activePlaylistId, playlists } = get();
+        const { currentTrackId, playContext, playlists } = get();
         let tracks: string[];
 
-        if (activePlaylistId) {
-          tracks = playlists.find((p) => p.id === activePlaylistId)?.trackIds || [];
+        if (playContext && playContext !== 'all-songs') {
+          tracks = playlists.find((p) => p.id === playContext)?.trackIds || [];
         } else {
           const { getFilteredTracks } = get();
           tracks = getFilteredTracks().map((t) => t.id);
@@ -171,6 +181,7 @@ export const useMusicStore = create<MusicStore>()(
 
         if (!currentTrackId || tracks.length === 0) return;
         const currentIndex = tracks.indexOf(currentTrackId);
+        if (currentIndex === -1) return;
         const prevTrackId = tracks[(currentIndex - 1 + tracks.length) % tracks.length];
         set({ currentTrackId: prevTrackId, currentTime: 0 });
       },
@@ -236,6 +247,7 @@ export const useMusicStore = create<MusicStore>()(
         set((state) => ({
           sortDirection: state.sortDirection === 'asc' ? 'desc' : 'asc',
         })),
+      setPlayContext: (context: 'all-songs' | string | null) => set({ playContext: context }),
 
       // Getters
       getCurrentTrack: () => {
@@ -305,6 +317,7 @@ export const useMusicStore = create<MusicStore>()(
         isSidebarCollapsed: state.isSidebarCollapsed,
         sortBy: state.sortBy,
         sortDirection: state.sortDirection,
+        playContext: state.playContext,
       }),
     }
   )

@@ -6,14 +6,15 @@ import { usePlaylistModals } from '../../hooks/usePlaylistModals';
 import { useTrackActions } from '../../hooks/useTrackActions';
 import { PlaylistModal } from './PlaylistModal';
 import { TrackRow } from './TrackRow';
-import { Play, Edit, Trash2 } from 'lucide-react';
+import { Play, Pause, Edit, Trash2 } from 'lucide-react';
 
 interface PlaylistViewProps {
   playlistId: string;
 }
 
 export function PlaylistView({ playlistId }: PlaylistViewProps) {
-  const { getPlaylistTracks, playlists, playTrack } = useMusicStore();
+  const { getPlaylistTracks, playlists, playTrack, togglePlay, currentTrackId, playContext } =
+    useMusicStore();
 
   const {
     modalMode,
@@ -58,6 +59,8 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
     overscan: 10,
   });
 
+  const isPlayingFromThisPlaylist = playContext === playlist!.id && currentTrackId !== null;
+
   if (!playlist) {
     return (
       <div className="p-6">
@@ -81,13 +84,22 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
             <Button
               variant="primary"
               onClick={() => {
-                if (filteredTracks.length > 0) playTrack(filteredTracks[0].id);
+                if (isPlayingFromThisPlaylist) {
+                  togglePlay();
+                } else {
+                  if (filteredTracks.length > 0) playTrack(filteredTracks[0].id);
+                }
               }}
               disabled={filteredTracks.length === 0}
-              aria-label="Play all tracks"
+              aria-label={isPlayingFromThisPlaylist ? 'Pause playlist' : 'Play all tracks'}
             >
-              <Play className="w-4 h-4 mr-1" />
+              {isPlayingFromThisPlaylist ? (
+                <Pause className="w-4 h-4" />
+              ) : (
+                <Play className="w-4 h-4" />
+              )}
             </Button>
+
             <Button
               variant="outline"
               onClick={() => openModal('rename', undefined, playlist.id, playlist.name)}
@@ -151,7 +163,7 @@ export function PlaylistView({ playlistId }: PlaylistViewProps) {
                     key={track.id}
                     track={track}
                     index={virtualItem.index}
-                    isCurrentTrack={isCurrentTrack(track.id)}
+                    isCurrentTrack={isCurrentTrack(track.id) && playContext === playlist.id}
                     isPlaying={isPlaying}
                     isSelected={isSelected(track.id)}
                     showRemoveButton
