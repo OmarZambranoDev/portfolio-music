@@ -13,7 +13,7 @@ export function PlaybackBar() {
   if (!track) {
     return (
       <div className="h-20 bg-white border-t border-earth-stone/30 flex items-center justify-center text-earth-moss">
-        No track selected
+        Select a track to begin simulated playback
       </div>
     );
   }
