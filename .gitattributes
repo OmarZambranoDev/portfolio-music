@@ -1,1 +1,3 @@
-src/utils/fallbackTracks.ts -linguist-detectable
+build/** linguist-vendored
+public/** linguist-vendored
+node_modules/** linguist-vendored

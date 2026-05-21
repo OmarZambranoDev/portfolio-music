@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@module-federation/vite": "^1.15.2",
-    "@OmarZambranoDev/portfolio-ui": "latest",
+    "@OmarZambranoDev/portfolio-ui": "npm:@omarzambranodev/portfolio-ui@^0.0.30",
     "@tanstack/react-virtual": "^3.0.1",
     "clsx": "^2.1.0",
     "lucide-react": "^0.400.0",

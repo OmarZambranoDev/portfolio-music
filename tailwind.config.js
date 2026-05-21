@@ -15,6 +15,8 @@ export default {
         'accent-hover': '#a07d5c',
         muted: '#c5ae96',
         'muted-hover': '#d4bfa8',
+        danger: '#b3423a',
+        'danger-hover': '#96362f',
         earth: {
           forest: '#344b33',
           sand: '#b78d6a',
@@ -23,6 +25,7 @@ export default {
           moss: '#4a5d3e',
           clay: '#a07d5c',
           warm: '#d4bfa8',
+          rose: '#b3423a',
         },
       },
     },
