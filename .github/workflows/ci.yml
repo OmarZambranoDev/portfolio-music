@@ -11,6 +11,16 @@ permissions:
   packages: read
 
 jobs:
+  version-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: node scripts/fetch-versions.js
+
+      - run: node scripts/check-versions.js
+
   lint-and-test:
     runs-on: ubuntu-latest
 

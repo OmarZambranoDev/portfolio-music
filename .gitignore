@@ -27,3 +27,5 @@ coverage
 npm-debug.log*
 
 .mf
+
+.canonical-versions.json
